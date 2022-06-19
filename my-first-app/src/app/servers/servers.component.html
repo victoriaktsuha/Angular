@@ -11,3 +11,18 @@
 <br>
 <app-server></app-server>
 <app-server></app-server>
+<br><br><br>
+<!-- Assignment 2 - My Solution -->
+<!-- <label>Username</label>
+<input type="text" class="form-control" [(ngModel)]="username" (keydown)="allowUsernameType()">
+<p>{{ username }}</p>
+<br>
+<button class="btn btn-primary" [disabled]="!allowUsernameButton" (click)="onUsernameCreate()">Allow to click</button> -->
+
+<!-- Assignment 2 - Teacher Solution -->
+<label>Username</label>
+<input type="text" class="form-control" [(ngModel)]="username">
+<p>{{ username }}</p>
+<br>
+<button class="btn btn-primary" [disabled]="username === '' " (click)="username = '' "> Reset Username</button><!-- 1 = para atribuir valor; 3 === para validacao -->
+
