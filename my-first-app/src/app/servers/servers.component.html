@@ -15,8 +15,7 @@
     </p>
 </ng-template>
 <br>
-<app-server></app-server>
-<app-server></app-server>
+<app-server *ngFor="let server of servers"></app-server>
 <br><br><br>
 <!-- Assignment 2 - My Solution -->
 <!-- <label>Username</label>
@@ -32,4 +31,7 @@
 <br>
 <button class="btn btn-primary" [disabled]="username === '' " (click)="username = '' "> Reset Username</button> -->
 <!-- 1 = para atribuir valor; 3 === para validacao -->
+
+
+
 
