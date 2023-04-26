@@ -1,0 +1,302 @@
+<div style="text-align: center">
+  <h1>Welcome to {{ title }}!</h1>
+  <img
+    width="300"
+    alt="Angular Logo"
+    src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg=="
+  />
+</div>
+<h2>Here are some links to help you start:</h2>
+<ul>
+  <li>
+    <h2>
+      <a target="_blank" rel="noopener" href="https://angular.io/tutorial"
+        >Tour of Heroes</a
+      >
+    </h2>
+  </li>
+  <li>
+    <h2>
+      <a target="_blank" rel="noopener" href="https://angular.io/cli"
+        >CLI Documentation</a
+      >
+    </h2>
+  </li>
+  <li>
+    <h2>
+      <a target="_blank" rel="noopener" href="https://blog.angular.io/"
+        >Angular blog</a
+      >
+    </h2>
+  </li>
+</ul>
+<br />
+<hr />
+<br />
+<h1>#1 Getting Started</h1>
+<br />
+<h2><b>Course Structure (Study Path)</b></h2>
+<p><b>1. Getting Started</b> - Build an Angular App</p>
+<p>
+  <b>2. The Basics</b> - Components and Two-Way Data Binding; How all the files
+  are connected
+</p>
+<p>
+  <b>3. Components and Data Binding</b> - Angular apps are build from components
+  and data binding is how you output the data in your domain or how to react to
+  user events
+</p>
+<p><b>4. Directives</b> - Build you own directives</p>
+<p>
+  <b>5. Services & Dependency Injection</b> - Communication between different
+  parts of your app
+</p>
+<p><b>6. Routing</b> - Connect different 'pages'</p>
+<p><b>7. Observables</b></p>
+<p><b>8. Forms</b></p>
+<p><b>9. Pipes</b></p>
+<p><b>10. HTTP</b></p>
+<p><b>11. Authentication</b></p>
+<p><b>12. Optimization & NgModules</b></p>
+<p><b>13. Deployment</b></p>
+<p><b>14. Animation & Testing</b></p>
+<br />
+<br />
+<h2><b>What is Angular?</b></h2>
+<p>
+  Angular is a <b>Javascript Framework</b> which allows you to create reactive
+  <b>Single-Page-Applications</b> (SPAs)
+</p>
+<p>
+  A SPA is a single HTML file that render the changes just in the browser (DOM),
+  creating a fast and reactive experience for not having to reach a server for
+  each change of each page and each data. It allows you to create web
+  applications that look and feel almost like mobile app, very fast. The server
+  data is loaded in the background.
+</p>
+<br />
+<br />
+<h2><b>Project Setup and First App</b></h2>
+<p>
+  <b>1. Install latest version of Node.JS</b><br /><br />
+  <a href="https://nodejs.org/">https://nodejs.org/</a><br /><br />
+  <b>2. Install Angular</b><br /><br />
+  You can install it <b>globally</b>, on your machine system, openning terminal
+  or cmd from the start or <b>locally</b>, using a IDE, inside your project
+  folder path.<br /><br />
+  <i>> npm install -g @angular/cli@latest</i> (@latest is optional, you can use
+  a certain version e.g. @4.2.6)<br /><br />
+  <b>3. Creating your Angular project</b><br /><br />
+  First, navigate to the folder you want to create the project inside, if you're
+  not already; e.g. <i>cd folder/folder_name</i><br /><br />
+  Then run:<br />
+  <i>> ng new project-name --no-strict</i><br /><br />
+  Choose config routing now or later:
+  <i>> ? <b>Would you like to add Angular routing?</b> (y/N)</i><br /><br />
+  Choose the stylesheet format (it can be change later on angular.json):<i
+    >> ? <b>Which stylesheet format would you like to use ?</b></i
+  ><br /><br />
+  After finished, navigate to the project folder that you just created and run
+  <i>> ng serve</i> and access the localhost address to see the initial page of
+  your app
+</p>
+<br />
+<br />
+<h2><b>CLI Deep Dive & Troubleshooting</b></h2>
+<p>
+  <b
+    >You encountered issues during the installation of the CLI or setup of a new
+    Angular project?</b
+  ><br /><br />
+
+  A lot of problems are solved by making sure you're using the latest version of
+  NodeJS, npm and the CLI itself.
+  <br /><br />
+  <b>Updating NodeJS:</b>
+  <br />
+  Go to nodejs.org and download the latest version - uninstall (all) installed
+  versions on your machine first.
+  <br /><br />
+  <b> Updating npm:</b>
+  <br />
+  Run <i><b>[sudo] npm install -g npm</b></i> (<i>sudo</i> is only required on
+  Mac/ Linux) <br /><br />
+  <b>Updating the CLI</b>
+  <br /><br />
+  <i>> [sudo] npm uninstall -g angular-cli @angular/cli </i>
+  <br />
+  <i>> npm cache verify </i>
+  <br />
+  <i>> npm cache clean --force</i>
+  <br />
+  <i>> [sudo] npm install -g @angular/cli</i>
+  <br /><br />
+  Here are some common issues & solutions: <br /><br />
+  <b>1. Creation of a new project takes forever (longer than 3 minutes)</b
+  ><br />
+  That happens on Windows from time to time => Try running the command line as
+  administrator <br /><br /><b
+    >2. You get an EADDR error (Address already in use)</b
+  ><br />
+  You might already have another ng serve process running - make sure to quit
+  that or use <b><i>ng serve --port ANOTHERPORT</i></b> to serve your project on
+  a new port <br /><br />
+  <b> 3. My changes are not reflected in the browser (App is not compiling)</b
+  ><br />
+  Check if the window running <b><i>ng serve</i></b> displays an error. If
+  that's not the case, make sure you're using the latest CLI version and try
+  restarting your CLI
+</p>
+<br />
+<br />
+<h2><b>About the Course Code / Code Snapshots</b></h2>
+<p>
+  <b>One important note:</b> All the course code will only work if you are
+  <b>NOT using "strict mode"</b> see the "First App" lecture in this module.
+  Strict mode forces you to write more verbose code in some places (especially
+  when it comes to class properties). If you enabled it by accident, you can
+  also disable it by setting <i><b>strict: false</b></i> in your
+  <b>tsconfig.json file.</b> <br /><br />
+  ---
+  <br /><br />
+  Due to dependency version mismatches, running the attachments might fail
+  though - in that case, you can try the following:
+  <br /><br />
+  1) Create a new project via
+  <i><b>ng new my-project --strict false</b></i> (the
+  <b><i>--strict false</i></b> part is important!)
+  <br />
+  2) Copy the content of the ZIP attachment <b>src/app</b> folder into the newly
+  created project <b>src/app</b> folder.
+  <br />
+  3) Run your project (my-project) via <b><i>ng serve</i></b>
+  <br />
+  If you try to directly run my ZIP attachments, you must run
+  <b><i>npm install</i></b> first. <br /><br />
+  If you're getting errors when running <b><i>npm install</i></b
+  >, you can often solve them by running
+  <b><i>npm install --legacy-peer-deps</i></b> instead of
+  <b><i>npm install.</i></b>
+</p>
+<br />
+<br />
+<h2><b>Editig First App</b></h2>
+<p>
+  <b>1. Choose an IDE</b><br /><br />e.g. VSCode, Sublime, WebStorm,
+  Eclipse..<br /><br />
+  <b>2. Adding Bootstrap</b><br /><br />
+  To install bootstrap, run <b><i>npm install --save bootstrap@lastest</i></b
+  ><br /><br />
+  After finished, in your angular.json file, in the "styles" key, you will add
+  bootstrap stylesheet, and you can add any stylesheet you want too.<br /><br />For
+  that, add the path of the bootstrap main file found in the 'node_modules'
+  folder (css and/or sass/scss):<br /><br />
+  "styles": [<br />
+  "src/styles.scss",<br />
+  "src/index.css",<br />
+  "node_modules/bootstrap/dist/bootstrap.min.css",<br />
+  "node_modules/bootstrap/scss/bootstrap.scss"<br />
+  ],<br /><br />
+</p>
+
+<br />
+<hr />
+<br />
+<h1>#2 The Basics</h1>
+<br />
+<h2><b>How an Angular App gets Loaded and Started</b></h2>
+<ul>
+  <li>
+    <i>'localhost:4200'</i> is where the development server hosted by CLI will
+    host the Angular app;
+  </li>
+  <br />
+  <li>
+    The 'single-page' displayed by server is the index.html, which has the
+    'app-root' tag inside, so it can show the 'app.component.html' content
+  </li>
+  <br />
+  <li>
+    The App component folder is a componet that CLI created for us, becaming the
+    'root' component, the one that will tie together our whole application at
+    the end
+  </li>
+  <br />
+  <li>
+    'main.ts' file is the first code that is executed, and between some imports
+    we have 'platformBrowserDynamic().bootstrapModule(AppModule)', responsable
+    for initialize bootstrap
+  </li>
+  <br />
+  <li>
+    Resuming: Angular start with the 'main.ts' with the Bootstrap Module which
+    receives the App Module as argument > in the App Module we declare App
+    Component in the bootstrap array, which means that when bootstrap initialize
+    with the main.ts, it should build the whole application with the App
+    Component > the Angular analyze the App Component config and find the
+    'app-root' selector > Now, Angular is capable to handle with 'app-root' in
+    the index.html, inserting the App Component content in it
+  </li>
+  <li>
+    *Other components is not added into the bootstrap array or in the index.html
+    file, just App Component
+  </li>
+</ul>
+<br /><br />
+<h2><b>Components are important!</b></h2>
+<p>
+  Components are a key-feature in Angular. You build your application by
+  composing it from a couple of components, created by your own; The App
+  Component will be where we'll nest later our other components.
+</p>
+<p>
+  Each component has its own tmeplate, styling and business logic. It allows you
+  to split up your complex application/web page into reusable parts without
+  having to fit everything in one single template, one single script, and turn
+  it easy to update and change
+</p>
+<br /><br />
+<h2><b>Creating a new component</b></h2>
+<p>
+  You can create it manually, by adding a folder and its components files or by
+  running <b><i>ng new component name-component</i></b>
+</p>
+<p>
+  Don't forget to add your component to app.module.ts, if you created it
+  manually
+</p>
+<br /><br />
+<h2><b>Understanding the Role of AppModule and Component Declaration</b></h2>
+<p>
+  Angular uses compnents to build web pages and uses modules to bundle different
+  pieces, like components of your application, into packages, giving information
+  do Angular of which features this application have and use.
+</p>
+<p>
+  In module, the decorator is @NgModule instead @Component and we import
+  'NgModule' instead 'Component'
+</p>
+<p>
+  @NgModule has 4 properties: declarations (receives component that is part of
+  this module), imports (receives other modules), providers (reserved to
+  services), bootstrap (receives the component which will start with the
+  application)
+</p>
+<p>Each new component added to declarations need to be imported</p>
+<br /><br />
+<h2><b>Using Custom Components</b></h2>
+<p></p>
+<br />
+<hr />
+<br />
+<h1><b>#4 Directives</b></h1>
+<label for="name"
+  ><b>[(ngModel)]</b> here 'listen' to what is written in the input and store it
+  into 'name' bellow:</label
+><br /><br />
+<input type="text" [(ngModel)]="name" id="name" />
+<!-- 'ngModel' is a directive that uses 'FormsModule' pkg, imported into 'app.module' => import { FormsModule } from '@angular/forms' -->
+<!-- ngModel here 'listen' to what is written in the input and store it into 'name' bellow-->
+
+<p>Input content: {{ name }}</p>
+<!-- this interpolation {{ name }} receives the value stored in the ngModel argument 'name'-->
