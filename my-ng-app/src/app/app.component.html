@@ -208,14 +208,110 @@
     case, you can try the following:<br /><br />
     1&rpar; Create a new project via
     <span class="code">ng new my-project --strict false</span> (the
-    <span class="code">--strict false</span> part is important!) 2&rpar; Copy
-    the content of the ZIP attachment <span class="code">src/app</span> folder
-    into the newly created project <span class="code">src/app</span> folder.
-    3&rpar; Run your project (<span class="code">my-project</span>) via
+    <span class="code">--strict false</span> part is important!)<br />
+    2&rpar; Copy the content of the ZIP attachment
+    <span class="code">src/app</span> folder into the newly created project
+    <span class="code">src/app</span> folder. <br />3&rpar; Run your project
+    (<span class="code">my-project</span>) via
     <span class="code">ng serve</span>
     If you're getting errors when running <span class="code">npm install</span>,
     you can often solve them by running
     <span class="code">npm install --legacy-peer-deps</span> instead of
     <span class="code">npm install</span>
   </p>
+  <br /><br /><br />
+  <h1 id="2"><b>#2 The Basics</b></h1>
+  <br />
+  <br /><br />
+  <h3><b>How an Angular App gets Loaded and Started</b></h3>
+  <br />
+  <p>
+    The 'single-page' serve by the server is the <b><i>index.html</i></b> and
+    inside it, we have the <b><i>'app-root'</i></b> selector, which was defined
+    in the <b><i>app.component.ts</i></b
+    >. So the content that we see first when the server is running at
+    <a href="localhost:4200">localhost:4200</a>, is the content inside
+    <b><i>app.component.html</i></b
+    ><br /><br />
+    The <b><i>'app.component'</i></b> is the component that CLI created for us
+    and the one that will tie everything together at the end, the
+    <b>root component</b>. And when <span class="code">'ng serve'</span> is run,
+    it will inject the right package bundles and scripts to build the app, that
+    we don't see in the index file, but can be seeing in a quick web page
+    inspection.<br /><br />
+    The first code that is requested when we start the app (<span class="code"
+      >ng-serve</span
+    >) is the <b><i>main.ts</i></b
+    >, where we import <b><i>app.module.ts</i></b
+    >, and we indicate it to be started with the server in the line
+    <span class="code">platformBrowserDynamic().bootstrapModule(AppModule)</span
+    >.<br /><br />
+    This method will reach the <b><i>'app.module.ts'</i></b
+    >, where we have a bootstrap array, which receive the component that should
+    be consider in the app start moment by this bootstrap method.<br />
+    In this array, we indicate the <b><i>AppComponent</i></b
+    >, that will have its content 'read' by bootstrap method when the app will
+    be started and that holds the selector <b><i>'app-root'</i></b
+    >, which is included in the <b><i>index.html</i></b> (the
+    <i>'single-page'</i>), closing the 'cycle'.<br /><br />
+    <img src="../assets/images/graf-angularstar.svg" style="width: 100%" />
+  </p>
+  <br /><br />
+  <h3><b>Components are important!</b></h3>
+  <br />
+  <p>
+    The Angular application is basically composed by a bunch of other components
+    inside the 'root' component. The benefits of this kind of structure are:
+  </p>
+  <ul>
+    <li>Reusability</li>
+    <li>Personalization</li>
+    <li>Easy to update</li>
+  </ul>
+  <br /><br />
+  <h3><b>Creating a new Component</b></h3>
+  <br />
+  <p>Before create a new component, some rules:</p>
+  <ul>
+    <li>
+      Any other components will <b>not be added</b> to index.html. There must be
+      remain just the <i>'app-root'</i>
+    </li>
+    <li>
+      As it is with index.html, any other component <b>won't be added</b> to
+      <b>'bootstrap:[ ]'</b> in the 'app.module.ts', there must remain just the
+      'AppComponent'
+    </li>
+    <li>
+      <b>New components</b> create inside the App Component folder, will be
+      added to <b>'declarations:[ ]'</b> in the 'app.module.ts'; It goes for for
+      any other new module with new components
+    </li>
+  </ul>
+  <br />
+  <p class="obs">
+    *For this lecture, the 'server' component was created manually
+  </p>
+  <p>1. In your IDE, create 'server' folder inside the 'app' folder</p>
+  <p>
+    2. Inside 'server' folder, create <i>'server.component.html'</i> and
+    <i>'server.component.ts'</i>
+  </p>
+  <p>
+    3. Then in <i>'server.component.ts'</i>, we will create the configuration
+    for this component:
+  </p>
+  <span class="code" style="border: none">
+    import &lbrace; Component &rbrace; from '@angular/core'; <br /><br />
+    @Component(&lbrace;<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;selector: 'app-server',<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;templateUrl: './server.component.html'<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;styleUrls: ['./server.component.scss'],
+    <br />&rbrace;)<br /><br />
+    export class ServerComponent &lbrace;&rbrace; </span
+  ><br /><br />
+  <br /><br />
+  <h3><b>Understanding the Role of AppModule and Component Declaration</b></h3>
+  <br />
+  <p></p>
 </div>
