@@ -319,7 +319,10 @@
   <h3><b>Understanding the Role of AppModule and Component Declaration</b></h3>
   <br />
   <p>The 'server' component selector is now added below:</p>
-  <app-server></app-server>
+  <div class="card">
+    <div class="card-header"><b>Result View</b></div>
+    <div class="card-body"><app-servers></app-servers></div>
+  </div>
   <br /><br /><br />
   <h3><b>Creating Components with the CLI & Nesting Components</b></h3>
   <br />
@@ -335,7 +338,10 @@
     <b><i>'app-servers'</i></b
     >, allows us to use them separatelly or inside other components as below:
   </p>
-  <app-servers></app-servers>
+  <div class="card">
+    <div class="card-header"><b>Result View</b></div>
+    <div class="card-body"><app-servers></app-servers></div>
+  </div>
   <!-- <div app-servers></div> -->
   <!-- <div class="app-servers"></div> -->
   <br /><br /><br />
@@ -359,7 +365,10 @@
     export class ServersComponent &lbrace;&rbrace; </span
   ><br /><br />
   Resulting in this (the same as before):<br /><br />
-  <app-servers></app-servers>
+  <div class="card">
+    <div class="card-header"><b>Result View</b></div>
+    <div class="card-body"><app-servers></app-servers></div>
+  </div>
   <!-- <div app-servers></div> -->
   <!-- <div class="app-servers"></div> -->
   <br /><br />
@@ -502,8 +511,11 @@
     >
   </p>
   <br />
-  <p>And you'll have:</p>
-  <app-server></app-server><br />
+  <div class="card">
+    <div class="card-header"><b>Result View</b></div>
+    <div class="card-body"><app-server></app-server></div>
+  </div>
+  <br />
   <p>The restrictions is that you <b>can't</b> write:</p>
   <ul>
     <li>multiple lines expression</li>
@@ -532,8 +544,10 @@
     >&lt;p&gt; Server with ID &lbrace; &lbrace; serverId &rbrace; &rbrace; is
     &lbrace; &lbrace; getServerStatus() &rbrace; &rbrace; &lt;/p&gt;</span
   ><br /><br />
-  <p>Output:</p>
-  <app-server></app-server>
+  <div class="card">
+    <div class="card-header"><b>Result View</b></div>
+    <div class="card-body"><app-server></app-server></div>
+  </div>
   <br /><br />
   <h3><b>Property Binding</b></h3>
   <br />
@@ -564,9 +578,113 @@
     server&lt;/button> </span
   ><br /><br />
   <p class="obs">
-    &lbrack;disabled]="!allowNewServer" is ready like: 'disabled' property will
+    &lbrack;disabled]="!allowNewServer" is read like: 'disabled' property will
     only be true if 'allowNewServer' is false
   </p>
   <br /><br />
-  <app-servers></app-servers>
+  <div class="card">
+    <div class="card-header"><b>Result View</b></div>
+    <div class="card-body"><app-servers></app-servers></div>
+  </div>
+  <br /><br />
+  <h3><b>Property Binding vs String Interpolation</b></h3>
+  <br />
+  <p>
+    If in the case we also want to output the value of the new server, we could
+    use <b>string interpolation</b>:
+  </p>
+  <span class="code"
+    >&lt;p>&lbrace; &lbrace; allowNewServer &rbrace; &rbrace;&lt;/p></span
+  ><br /><span class="obs">Boolean values can be translated to string</span
+  ><br /><br />
+  <div class="card">
+    <div class="card-header"><b>Result View</b></div>
+    <div class="card-body"><app-servers></app-servers></div>
+  </div>
+  <br /><br />
+  <p>
+    But this is case where we can also use
+    <b>property binding instead string interpolation</b> to get the same result:
+  </p>
+  <span class="code">&lt;p &lbrack;innerText]="allowNewServer">&lt;/p></span>
+  <br /><br /><br />
+  <p><b>Which one should I use?</b></p>
+  <p>
+    If you want to output just <b>text</b> basically, use
+    <b>string interpolation</b>;<br /><br />If you want to
+    <b>change some property</b>, be of a
+    <b>HTML file or a directive component</b>, use <b>property binding</b>
+  </p>
+  <br />
+  <p><b>DON'T MIX</b> property binding and string interpolation:</p>
+  <span class="code"
+    >&lt;p &lbrack;innerText]="&lbrace; &lbrace;allowNewServer &rbrace;
+    &rbrace;">&lt;/p></span
+  >
+  <br /><br /><br />
+  <h3><b>Event Binding</b></h3>
+  <br />
+  <p>
+    When user clicks on the button 'Add Server', we want to react at this event.
+    So, in the <b><i>component.ts</i></b
+    >, we create the property:
+  </p>
+  <p>
+    <span class="code">serverCreationStatus = 'No server was created!';</span>
+  </p>
+  <p>And the method:</p>
+  <p>
+    <span class="code" style="border: none"
+      >onCreateServer() &lbrace;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;this.serverCreationStatus = 'Server was created!';
+      <br />&rbrace;</span
+    >
+  </p>
+  <p class="obs">
+    Beggining the method name with 'on..' make more easy to know that is a event
+    binding, some reaction to user action
+  </p>
+  <p>
+    In the HTML (of the same method component !), we <b>comment</b> the
+    <span class="code"
+      >&lt;p &lbrack;innerText]="&lbrace; &lbrace;allowNewServer &rbrace;
+      &rbrace;">&lt;/p></span
+    >
+    and add:
+  </p>
+  <p>
+    <span class="code"
+      >&lt;p>&lbrace; &lbrace; serverCreationStatus &rbrace;
+      &rbrace;&lt;/p></span
+    >
+  </p>
+  <p>To the button 'Add Server', we add:</p>
+  <p><span class="code">&lpar;click&rpar;="onCreateServer()"</span></p>
+  <p>So when clicked, the string changes to 'Server was created'</p>
+  <p class="obs">
+    *Property Binding uses '[ ]', while Event Binding uses '( )'
+  </p>
+  <div class="card">
+    <div class="card-header"><b>Result View</b></div>
+    <div class="card-body"><app-servers></app-servers></div>
+  </div>
+  <br /><br /><br />
+  <h3><b>Bindable Properties and Events</b></h3>
+  <br />
+  <p>
+    How do you know to which Properties or Events of HTML Elements you may bind?
+    You can basically bind to all Properties and Events - a good idea is to
+    <span class="code">console.log()</span> the element you're interested in to
+    see which properties and events it offers.
+  </p>
+  <p>
+    <b>Important:</b> For events, you don't bind to onclick but only to click
+    (=> (click)).
+  </p>
+  <p>
+    The MDN (Mozilla Developer Network) offers nice lists of all properties and
+    events of the element you're interested in. Googling for
+    <span class="code">YOUR_ELEMENT properties</span> or
+    <span class="code">YOUR_ELEMENT events</span> should yield nice results.
+  </p>
 </div>

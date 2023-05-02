@@ -1,4 +1,19 @@
-<button class="btn btn-primary" [disabled]="!allowNewServer">Add server</button>
+<p><b>Servers Component content:</b></p>
+<button
+  class="btn btn-primary"
+  [disabled]="!allowNewServer"
+  (click)="onCreateServer()">
+  Add server
+</button>
 <!-- [disabled]="!allowNewServer" is ready like: 'disabled' property will only be set if 'allowNewServer' is false -->
 <br />
+<!-- Output with string interpolation -->
+<!-- <p>{{ allowNewServer }}</p> -->
+
+<!-- Output with property binding -->
+<!-- <p [innerText]="allowNewServer"></p> -->
+
+<br />
+<!-- Event Binding -->
+<p>{{ serverCreationStatus }}</p>
 <app-server></app-server>

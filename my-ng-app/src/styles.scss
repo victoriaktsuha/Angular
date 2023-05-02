@@ -3,14 +3,13 @@
   font-family: Arial, Helvetica, sans-serif;
   scroll-behavior: smooth;
 }
-span {
-  &.code {
-    color: chocolate;
-    font-family: monospace;
-    border: 1px solid lightgray;
-    padding: 0.05rem 0.2rem;
-  }
+.code {
+  color: chocolate;
+  font-family: monospace;
+  border: 1px solid lightgray;
+  padding: 0.05rem 0.2rem;
 }
+
 .obs {
   color: rgb(139, 139, 139);
   font-size: 12px;
