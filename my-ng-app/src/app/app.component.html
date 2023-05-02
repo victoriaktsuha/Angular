@@ -5,8 +5,7 @@
     <img
       width="300"
       alt="Angular Logo"
-      src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg=="
-    />
+      src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==" />
   </div>
   <br />
   <h2>Here are some links to help you start:</h2>
@@ -310,8 +309,264 @@
     <br />&rbrace;)<br /><br />
     export class ServerComponent &lbrace;&rbrace; </span
   ><br /><br />
+  4. Add the component to the <b><i>app.module.ts</i></b
+  >:<br /><br />
+  <span class="code" style="border: none">
+    declarations: [<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;AppComponent, ServerComponent <br />]
+  </span>
   <br /><br />
   <h3><b>Understanding the Role of AppModule and Component Declaration</b></h3>
   <br />
-  <p></p>
+  <p>The 'server' component selector is now added below:</p>
+  <app-server></app-server>
+  <br /><br /><br />
+  <h3><b>Creating Components with the CLI & Nesting Components</b></h3>
+  <br />
+  <p>
+    Open a new terminal/CLI (to not close where server is running), and run:
+  </p>
+  <span class="code">ng generate component name-component</span><br />
+  <span class="obs"
+    >*The component will be automatically created inside the app folder</span
+  ><br /><br />
+  <p>
+    The <b><i>'app-server'</i></b> was added inside the
+    <b><i>'app-servers'</i></b
+    >, allows us to use them separatelly or inside other components as below:
+  </p>
+  <app-servers></app-servers>
+  <!-- <div app-servers></div> -->
+  <!-- <div class="app-servers"></div> -->
+  <br /><br /><br />
+  <h3><b>Working with Components templates</b></h3>
+  <br />
+  <p>
+    In this case, the template is define in the Typescript file, as we're doing
+    in the <b><i>'server.component'</i></b
+    >:
+  </p>
+  <br />
+  <span class="code" style="border: none">
+    import &lbrace; Component &rbrace; from '@angular/core';
+    <br /><br />
+    @Component(&rbrace;<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;selector: 'app-servers',<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;template:
+    '&lt;app-server&gt;&lt;/app-server&gt;&lt;app-server&gt;&lt;/app-server&gt;',<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;styleUrls: ['./servers.component.sass'],<br />
+    &rbrace;)<br /><br />
+    export class ServersComponent &lbrace;&rbrace; </span
+  ><br /><br />
+  Resulting in this (the same as before):<br /><br />
+  <app-servers></app-servers>
+  <!-- <div app-servers></div> -->
+  <!-- <div class="app-servers"></div> -->
+  <br /><br />
+  <p>
+    To use multiple lines at the <b><i>'template'</i></b
+    >, use <b>` `</b> instead <b>' '</b>
+  </p>
+  <span class="code" style="border: none">
+    import &lbrace; Component &rbrace; from '@angular/core';
+    <br /><br />
+    @Component(&rbrace;<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;selector: 'app-servers',<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;template: `&lt;app-server&gt;&lt;/app-server&gt;<br />&lt;app-server&gt;&lt;/app-server&gt;`,<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;styleUrls: ['./servers.component.sass'],<br />
+    &rbrace;)<br /><br />
+    export class ServersComponent &lbrace;&rbrace; </span
+  ><br /><br />
+  <p>
+    Choose between inline template (inside Typescript) as above or external file
+    with <b><i>templateUrl: "./app.component.html"</i></b>
+  </p>
+  <br /><br />
+  <h3><b>Working with Components styles</b></h3>
+  <br />
+  <p>
+    You can the own component <i>'.css'</i> file to style the component
+    differently or use the own component Typescript file to style directly in
+    the key 'style':
+  </p>
+  <br />
+  <span class="code" style="border: none">
+    @Component(&lbrace;<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;selector: "app-root",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;templateUrl: "./app.component.html", <br />
+    &nbsp;&nbsp;&nbsp;&nbsp;styles: [`<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h3
+    &lbrace;<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color:
+    dodgerblue;
+    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&rbrace;
+    <br />&nbsp;&nbsp;&nbsp;&nbsp;`] <br />&rbrace;)</span
+  ><br /><br />
+  <p>
+    Choose between inline style (inside Typescript) as above or external file
+    with <b><i>styleUrls: ['./app.component.scss']</i></b>
+  </p>
+  <br /><br />
+  <h3><b>Fully Understanding the Component Selector</b></h3>
+  <br />
+  <p>
+    Since we define selector similar to CSS stylesheet, just typing the name
+    like <b><i>'app-server'</i></b
+    >, we have another way to use selector:
+  </p>
+  <br />
+  <h5><b>Selector by attribute</b></h5>
+  <br />
+  <span class="code">selector: "[app-servers]"</span>
+  <br /><br />
+  To display it, in the HTML this must added like this:<br /><br />
+  <span class="code"> &lt;div app-servers&gt;&lt;/div&gt; </span><br /><br />
+  <br />
+  <h5><b>Selector by class</b></h5>
+  <br />
+  <span class="code">selector: ".app-servers"</span>
+  <br /><br />
+  To display it, in the HTML this must added like this:<br /><br />
+  <span class="code"> &lt;div class="app-servers"&gt;&lt;/div&gt; </span
+  ><br /><br />
+  <ul>
+    <li>
+      Must be a unique selector, preferencially following the standard
+      <b><i>'app-nameapp'</i></b>
+    </li>
+    <li>
+      The recommended way to declare selector is still
+      <span class="code">selector: 'app-servers'</span>
+    </li>
+  </ul>
+  <br /><br />
+  <h3><b>What is Databinding</b></h3>
+  <br />
+  <p>
+    It's the communication between your Typescript code (business logic) and
+    your template (HTML).<br /><br />
+    We can <b>Output Data</b> from the TS file to HTML template, using:
+  </p>
+  <ul>
+    <li>
+      <b>String Interpolation</b> (<span class="code"
+        >&lbrace; &lbrace; data &rbrace; &rbrace;</span
+      >)
+    </li>
+    <li>
+      <b>Property Binding</b> (<span class="code"
+        >&lbrack;property&rbrack;="data"</span
+      >)
+    </li>
+  </ul>
+  <br />
+  <p>
+    We can <b>React to (User) Events</b> from HTML template to TS file, using:
+  </p>
+  <ul>
+    <li>
+      <b>Event Binding</b> (<span class="code"
+        >&lpar;event&rpar;="expression"</span
+      >)
+    </li>
+  </ul>
+  <p>
+    Combining of both: <b>Two-Way-Binding</b> (<span class="code"
+      >&lbrack;&lpar;ngModel&rpar;&rbrack;="data"</span
+    >)
+  </p>
+  <br /><br />
+  <h3><b>String Interpolation</b></h3>
+  <br />
+  <p>
+    Supposing we want to output to template a server ID and status, two dynamic
+    informations.<br /><br />Using the <b><i>'server.component'</i></b
+    >, in the Typescript file, we add the variables:
+  </p>
+  <span class="code" style="border: none">
+    export class ServerComponent &lbrace;<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;serverId: number = 10;<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;serverStatus: string = 'offline';<br />
+    &rbrace;<br /> </span
+  ><br />
+  <p class="obs">
+    Any expression that can be solved/converted to a string in the end, that's
+    the condition for a string interpolation
+  </p>
+  <br />
+  <p>
+    In the <b><i>'component.html'</i></b> file, you can add:<br /><br />
+    <span class="code"
+      >&lt;p&gt; &lbrace; &lbrace; 'Server' &rbrace; &rbrace; with ID &lbrace;
+      &lbrace; serverId &rbrace; &rbrace; is &lbrace; &lbrace; serverStatus
+      &rbrace; &rbrace; &lt;/p&gt;</span
+    >
+  </p>
+  <br />
+  <p>And you'll have:</p>
+  <app-server></app-server><br />
+  <p>The restrictions is that you <b>can't</b> write:</p>
+  <ul>
+    <li>multiple lines expression</li>
+    <li>block expression</li>
+    <li>'if' or 'for' structure</li>
+  </ul>
+  <br />
+  <p>
+    But you can write a <b>ternary expression:</b><br /><br />
+    <span class="code"
+      >(age >= 18) ? console.log("Can Vote") : console.log("Cannot Vote");</span
+    >
+  </p>
+  <br />
+  <p>And you can also use a <b>method:</b></p>
+  <p>In the Typescript file:</p>
+  <span class="code" style="border: none">
+    export class ServerComponent &lbrace;<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;serverId: number = 10;<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;serverStatus: string = 'offline';<br /><br />
+    getServerStatus&lpar;&rpar;&lbrace;<br />&nbsp;&nbsp;&nbsp;&nbsp;return
+    this.serverStatus; <br />&rbrace; </span
+  ><br /><br />
+  <p>In the HTML:</p>
+  <span class="code"
+    >&lt;p&gt; Server with ID &lbrace; &lbrace; serverId &rbrace; &rbrace; is
+    &lbrace; &lbrace; getServerStatus() &rbrace; &rbrace; &lt;/p&gt;</span
+  ><br /><br />
+  <p>Output:</p>
+  <app-server></app-server>
+  <br /><br />
+  <h3><b>Property Binding</b></h3>
+  <br />
+  <p>
+    Supposing we want to allow user <b>add</b> a new server - button must be
+    enable to user after certain time:<br /><br />We add a button 'Add server'
+    at the template and the code in the Typescript file:<br /><br />
+    <span class="code" style="border: none">
+      export class ServersComponent &lbrace;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;allowNewServer = false;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;constructor() &lbrace;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setTimeout(()
+      => &lbrace;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.allowNewServer
+      = true;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&rbrace;,2000);<br />&nbsp;&nbsp;&nbsp;&nbsp;&rbrace;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;ngOnInit(): void &lbrace;&rbrace;<br />
+      &rbrace;
+    </span>
+  </p>
+  <br />
+  <p>
+    In HTML, we're going to <b>bind</b> the <i>disabled</i> property to our
+    expression written before, that with the <i>setTimeout()</i> method, after
+    the <i>'2000'</i> miliseconds defined, will set <i>'true'</i> to the
+    'allowNewServer' property, enabling the button
+  </p>
+  <br />
+  <span class="code">
+    &lt;button class="btn btn-primary" &lbrack;disabled]="!allowNewServer">Add
+    server&lt;/button> </span
+  ><br /><br />
+  <p class="obs">
+    &lbrack;disabled]="!allowNewServer" is ready like: 'disabled' property will
+    only be true if 'allowNewServer' is false
+  </p>
+  <br /><br />
+  <app-servers></app-servers>
 </div>
