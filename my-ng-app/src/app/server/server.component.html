@@ -1,6 +1,15 @@
 <div class="card">
   <div class="card-body">
     <p><b>Server Component content:</b></p>
-    <p>{{ 'Server' }} with ID {{ serverId }} is {{ getServerStatus() }}</p>
+    <p
+      [ngStyle]="{backgroundColor: getColor()}"
+      [ngClass]="{online: serverStatus === 'online'}">
+      {{ 'Server' }} with ID {{ serverId }} is {{ getServerStatus() }}
+    </p>
+    <!-- Directives starting with 'ng' is a builtin directive -->
+    <!-- The directive is just the 'ngStyle'; the square brackets [ ] is not part of the directive, it indicates that we want to bind some property on this directive and this property name happens to also be ngStyle. Property bidning and directives are different things-->
+    <!-- This [ngStyle] expects a JS object, so we define key value pair of the style name as the key and the value of the style as value-->
+    <!-- While 'ngStyle allows us change the CSS style itself,  to'ngClass' allows us to dynamically add or remove CSS classes -->
+    <!--  -->
   </div>
 </div>

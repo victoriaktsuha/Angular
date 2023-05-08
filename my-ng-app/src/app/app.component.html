@@ -448,6 +448,28 @@
     </li>
   </ul>
   <br /><br />
+  <h3><b>Assignment 1: Practicing Components</b></h3>
+  <p>
+    1. Create two new Components (manually or with CLI): WarningAlert and
+    SuccessAlert
+  </p>
+  <p>2. Output them beneath each other in the AppComponent</p>
+  <p>3. Output a warning or success message in the Components</p>
+  <p>4. Style the Components appropriately (maybe some red/green text?)</p>
+  <p>Use extrernal or internal templates and styles</p>
+  <p>
+    Feel free to create more components, nest into each other or play around
+    with different types of selections
+  </p>
+  <br />
+  <div class="card">
+    <div class="card-header"><b>Result View</b></div>
+    <div class="card-body">
+      <app-success></app-success><br />
+      <app-warning></app-warning>
+    </div>
+  </div>
+  <br /><br />
   <h3><b>What is Databinding</b></h3>
   <br />
   <p>
@@ -775,6 +797,40 @@
     <div class="card-body"><app-servers></app-servers></div>
   </div>
   <br /><br />
+  <h3><b>Assignment 2: Practicing Databinding</b></h3>
+  <br />
+  <p>
+    1. Add a input field which updates a property ('username') via
+    Two-Way-Binding
+  </p>
+  <p>
+    2. Output the username property via String Interpolation (in a paragraph
+    below the input)
+  </p>
+  <p>
+    3. Add a button which may only be clicked if the username is NOT an empty
+    string
+  </p>
+  <p>
+    4. Upon clicking the button, the username should be reset to an empty string
+  </p>
+  <div class="card">
+    <div class="card-header"><b>Result View</b></div>
+    <div class="card-body">
+      <label>Username</label>
+      <input type="text" class="form-control" [(ngModel)]="username" /><br />
+      <p>{{ username }}</p>
+      <button
+        class="btn btn-primary"
+        [disabled]="username === ''"
+        (click)="onReset($event)">
+        Reset User
+        <!-- '===' to validate; '=' to assign -->
+        <!-- We could also use (click)="username = ' '" -->
+      </button>
+    </div>
+  </div>
+  <br /><br />
   <h3><b>Combining all forms of DataBinding</b></h3>
   <br />
   <p>
@@ -890,9 +946,172 @@
   <p>
     Other type of directives are attribute directives, which are call like this
     becasue kthey are really just look like normal HTML attributes
-    <b>(whithout the *)</b><; Unlike structure directives, attribute directives
+    <b>(whithout the *)</b>; Unlike structure directives, attribute directives
     <b>don't add or remove elements</b>, they only change the element
     <b>they were placed on</b><br /><br />
-    In the <b><i>'server'</i></b> TS file
+    In the <b><i>'server'</i></b> TS file, we'll turn in random the servers
+    status:<br />
+    <span class="code no-border">
+      constructor() &lbrace;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;this.serverStatus = Math.random() > 0.5 ? 'online'
+      : 'offline';<br />
+      &rbrace;</span
+    ><br /><br />
+    Now, we want to change the background color depending on the server status.
+    For that, in the <b><i>'server'</i></b> HTML, we can use the directive:<br /><br />
+    <span class="code no-border">
+      &lt;p &lbrack;ngStyle]="&lbrace;backgorundColor: getColor()&rbrace;">
+      &lbrace; &lbrace; 'Server' &rbrace; &rbrace; with ID &lbrace; &lbrace;
+      serverId &rbrace;&rbrace; is &lbrace; &lbrace; getServerStatus()
+      &rbrace;&rbrace; &lt;/p> </span
+    ><br />
+    <span class="obs">Directives starting with 'ng' is a builtin directive</span
+    ><br /><br />
+    The directive is just the <span class="code">ngStyle</span>; the square
+    <i>brackets [ ]</i> is <b>not</b> part of the directive, it indicates that
+    we want to <b>bind some property on this directive</b> and this property
+    name happens to also be <span class="code">ngStyle</span>. Property bidning
+    and directives are different things.<br /><br />
+    In the <b><i>'server'</i></b> TS file:<br />
+    <span class="code no-border">
+      getColor() &lbrace;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;return this.serverStatus === 'online' ? 'green' :
+      'red'; <br />&rbrace;
+    </span>
   </p>
+  <div class="card">
+    <div class="card-header"><b>Result View</b></div>
+    <div class="card-body"><app-servers></app-servers></div>
+  </div>
+  <br /><br />
+  <h3><b>Applying CSS Classes Dynamically with ngClass</b></h3>
+  <br />
+  <p>
+    Still in the <b><i>'server'</i></b> HTML, we're also going to add
+    <span class="code">ngClass</span>:<br /><br />
+    <span class="code no-border"
+      >&lt;p &lbrack;ngStyle]="&lbrace;backgorundColor: getColor()&rbrace;"
+      &lbrack;ngClass]="&lbrace;online: serverStatus === 'online'&rbrace;">
+      &lbrace; &lbrace; 'Server' &rbrace; &rbrace; with ID &lbrace; &lbrace;
+      serverId &rbrace;&rbrace; is &lbrace; &lbrace; getServerStatus()
+      &rbrace;&rbrace; &lt;/p></span
+    ><br /><br />In <span class="code">[ngClass]</span>, we have the CSS class
+    name <i>online</i> and next, the condition to add this class, only when the
+    <i>serverStatus()</i> is <i>'online'</i><br /><br />
+    While <span class="code">ngStyle</span> allows us <b>change</b> the CSS
+    style itself, to <span class="code">ngClass</span> allows us to dynamically
+    <b>add or remove</b> CSS classes. <br /><br />
+    In the <b><i>'server'</i></b> TS file, we add the key 'styles' in the
+    <span class="code">@Component</span> decorator with the CSS class we want to
+    bind in the <span class="code">ngClass</span>:<br /><br />
+    <span class="code no-border">
+      @Component(&lbrace;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;selector: 'app-server',<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;templateUrl: './server.component.html',<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;styles: [`<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.online &lbrace;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color:
+      white;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&rbrace;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;`]<br />
+      &rbrace;) </span
+    ><br /><br />
+    <b>Important:</b> In the <span class="code">@Component</span> decorator, we
+    can have just <b>one</b> style key: <b><i>styleUrls</i></b> OR
+    <b><i>styles</i></b
+    ><br /><br />
+  </p>
+  <br /><br />
+  <h3><b>Outputting Lists with ngFor</b></h3>
+  <br />
+  <p>
+    Another builtin directive is <b>ngFor</b>, it allows us to update a certain
+    list/array and output it in the DOM, for example.<br /><br />
+    In the <b>'servers'</b> component, we're actually adding the servers
+    manually:
+    <span class="code no-border">
+      &lt; app-server>&lt;/app-server><br />
+      &lt; app-server>&lt;/app-server>
+    </span>
+    Now we want to update it with the input value after click the button 'Add
+    Server'. <br />
+    In the <b>'servers'</b> TS file, we'll add the property:
+    <span class="code">servers = ['Testserver', 'Testserver 2'];</span
+    ><br /><br />And in the <b><i>onCreateServer()</i></b
+    >, we'll add: <span class="code">this.servers.push(this.serverName);</span
+    ><br /><br />
+    Since the <b><i>onCreateServer()</i></b> method is binded to the
+    <i>(click)</i>event in the button, it will trigger the <i>push()</i> method
+    and add the input value as a new server name in the array
+  </p>
+  <br /><br />
+  <h3>
+    <b
+      >Assignment 3: Practicing Directives + Getting the Index when using
+      ngFor</b
+    >
+  </h3>
+  <br />
+  <p>1. Add a button which says 'Display Details'</p>
+  <p>
+    2. Add a paragraph with any content of your choice (e.g. 'Secret Password =
+    tuna')
+  </p>
+  <p>
+    3. Toggle the displaying of that paragraph with the button created in the
+    first step
+  </p>
+  <p>
+    4. Log all button clicks in an array and output that array below the secret
+    paragraph (maybe log a timestamp or simply an incrementing number)
+  </p>
+  <p>
+    5. Starting at the 5th log item, give all future log items a blue background
+    (via ngStyle) and white color (via ngClass)
+  </p>
+  <div class="card">
+    <p class="card-header"><b>Result View</b></p>
+    <div class="card-body">
+      <!-- Easy way to toggle: -->
+      <!-- <button class="btn btn-primary" (click)="showSecret = !showSecret">
+        Display Details</button
+      > -->
+      <button class="btn btn-primary" (click)="onToggleDetails()">
+        Display Details</button
+      ><br />
+      <p *ngIf="showSecret"><br />Secret Password = Spicy Tuna</p>
+      <!-- <div
+        *ngFor="let logItem of log;"
+        [ngStyle]="{backgroundColor: logItem >= 5 ? 'blue' : 'inherit'}"
+        [ngClass]="{'white-text': logItem >= 5}">
+        {{ logItem }}
+      </div> -->
+      <!-- 'log' is the array created on the TS file - so it will loop/pass for all the item ('logItem') inside the array ('log') applicating the instructions passed on 'onToggleDetails()' until the array lenght is over -->
+
+      <!-- Solution to index -->
+      <div
+        *ngFor="let logItem of log; let i = index"
+        [ngStyle]="{backgroundColor: i >= 4 ? 'blue' : 'inherit'}"
+        [ngClass]="{'white-text': i >= 4}">
+        {{ logItem }}
+      </div>
+    </div>
+  </div>
+  <br /><br />
+  <h3>
+    <b>Project Introduction</b>
+  </h3>
+  <br />
+  <p>Objective: Build a recipe book and a shopping list app</p>
+  <br />
+  <h3>Planning the App</h3>
+  <br />
+  <p>
+    1. Layout the structure of the app and speccially plan which components
+    you're probably going to need
+  </p>
+  <!-- <svg focusable="false" aria-label="app">
+    <use href="../assets/sprite.svg#Recipie-app-structure"></use>
+  </svg> -->
+  <img style="width: 100%" src="../assets/images/Recipie-app-structure.png" />
 </div>
