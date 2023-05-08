@@ -8,6 +8,9 @@
   font-family: monospace;
   border: 1px solid lightgray;
   padding: 0.05rem 0.2rem;
+  &.no-border {
+    border: none;
+  }
 }
 
 .obs {

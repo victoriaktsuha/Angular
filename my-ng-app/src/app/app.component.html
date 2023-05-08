@@ -315,7 +315,7 @@
     declarations: [<br />
     &nbsp;&nbsp;&nbsp;&nbsp;AppComponent, ServerComponent <br />]
   </span>
-  <br /><br />
+  <br /><br /><br /><br />
   <h3><b>Understanding the Role of AppModule and Component Declaration</b></h3>
   <br />
   <p>The 'server' component selector is now added below:</p>
@@ -621,7 +621,7 @@
     >&lt;p &lbrack;innerText]="&lbrace; &lbrace;allowNewServer &rbrace;
     &rbrace;">&lt;/p></span
   >
-  <br /><br /><br />
+  <br /><br /><br /><br />
   <h3><b>Event Binding</b></h3>
   <br />
   <p>
@@ -686,5 +686,213 @@
     events of the element you're interested in. Googling for
     <span class="code">YOUR_ELEMENT properties</span> or
     <span class="code">YOUR_ELEMENT events</span> should yield nice results.
+  </p>
+  <br /><br />
+  <h3><b>Passing and Using Data with Event Binding</b></h3>
+  <br />
+  <p>
+    In the <i>'component.html'</i>, the user now will be able to add the server
+    name with the <i><b>(input)</b></i> event:<br />
+    <span class="code"
+      >&lt;input type="text" class="form-control"
+      &lpar;input&rpar;="onUpdateServerName()" /><br /></span
+    ><br />
+    The (input) is a event that is triggered by the keystroke and can give us
+    data about the event.
+    <br /><br />
+    And we also need to output what user entered as server name, the value of
+    the input field. So we add <span class="code">$event</span> at the event
+    binding in HTML file:<br />
+    <span class="code"
+      >&lt;input type="text" class="form-control"
+      &lpar;input&rpar;="onUpdateServerName($event)" /></span
+    ><br />
+    Only inside the "methodName($event)", the
+    <b><i>$event </i></b>will capture the data emitted with this event
+    <br /><br />
+    In the <i>'component.ts'</i> we're going to add our method that is binded in
+    the DOM event <i>(input)</i>:<br /><br />
+    <span class="code no-border"
+      >onUpdateServerName(event: Event) &lbrace;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;this.serverName =
+      (&lt;HTMLInputElement>event.target).value;<br />&rbrace;</span
+    ><br />
+    <span class="obs"
+      >(&lt;HTMLInputElement>event.target) is needed to inform TS that we know
+      that the type of the HTML element of this event will be a HTML input
+      element</span
+    ><br /><br />
+    Now in the HTML we will output the server name:<br /><br />
+    <span class="code"
+      >&lt;p>&lbrace; &lbrace;serverName&rbrace; &rbrace;&lt;/p></span
+    ><br /><br />
+  </p>
+  <div class="card">
+    <div class="card-header"><b>Result View</b></div>
+    <div class="card-body"><app-servers></app-servers></div>
+  </div>
+  <br /><br />
+  <h3><b>Important: FormsModule is Required for Two-Way-Binding!</b></h3>
+  <br />
+  <p>
+    Important: For Two-Way-Binding (covered in the next lecture) to work, you
+    need to enable the <span class="code">ngModel</span> directive. This is done
+    by adding the <span class="code">FormsModule</span> to the
+    <span class="code">imports[]</span> array in the AppModule.<br /><br />
+
+    You then also need to add the import from
+    <span class="code">@angular/forms</span> in the app.module.ts file:<br /><br />
+
+    <span class="code"
+      >import &lbrace; FormsModule &rbrace; from '@angular/forms';</span
+    >
+  </p>
+  <br /><br />
+  <h3><b>Two-Way DataBinding</b></h3>
+  <br />
+  <p>
+    With Two-Way-Binding, we combine property and event binding. We use
+    <b><i>[( )]</i></b> and a directive, in this case, <b><i>ngModel</i></b
+    ><br /><br />
+    <b>Important:</b> To be able to use <b><i>ngModel</i></b
+    >, the <b><i>FormsModule</i></b> (from
+    <span class="code">@angular/forms</span>) needs to be added to your
+    <span class="code">imports[]</span> array in the <b>AppModule</b> (should ne
+    there by default in a CLI project)!<br /><br />
+    Let's replace the previously <i>event binding</i> code to the
+    <i>two-way binding</i> structure:<br /><br />
+    <span class="code"
+      >&lt;input type="text" class="form-control"
+      &lbrack;(ngModel)]="serverName" /></span
+    ><br /><br />
+    This will trigger in the input event and update the value of server name in
+    the component automatically. On the other hand, since is two-way binding, it
+    will update the value of the input element if we change server name
+    somewhere else
+  </p>
+  <div class="card">
+    <div class="card-header"><b>Result View</b></div>
+    <div class="card-body"><app-servers></app-servers></div>
+  </div>
+  <br /><br />
+  <h3><b>Combining all forms of DataBinding</b></h3>
+  <br />
+  <p>
+    Now, we want to display the server name inouted in the filed by the user
+    just when we click in the button 'Add Server'. We start removing the
+    <span class="code"
+      >&lt;p>&lbrace; &lbrace;serverName&rbrace; &rbrace;&lt;/p></span
+    >
+    and update the Typescritp file:<br /><br />
+    <span class="code no-border"
+      >onCreateServer() &lbrace;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;this.serverCreationStatus = 'Server was created!
+      Name is' + this.serverName;<br />
+      &rbrace;</span
+    ><br /><br />
+    With that, we're using all four forms of Databinding together: an
+    <b>event binding</b> to listen to the click, <b>string interpolation</b> to
+    output the data, <b>property binding</b> to enable the button after 2s and
+    <b>two-way binding</b> to fetch our input data.
+  </p>
+  <br /><br />
+  <h3><b>Understanding Directives</b></h3>
+  <br />
+  <p>
+    <b>What are directives ?</b><br />They're instructions in the DOM, e.g.
+    components are kind of such instructions in the DOM. Once we place the
+    selector of our component somewhere in our templates, at this point, we're
+    instructing Angular to add the content of our component template, and the
+    business logic in our TS file, in the place where we used the selector. So
+    components are directives, but directives with a template <br /><br />
+    <span class="code"
+      >&lt;p appTurnGreen> Receives a green background!&lt;/p></span
+    ><br /><br />
+    <span class="code no-border">
+      @Directive(&lbrace; <br />&nbsp;&nbsp;&nbsp;&nbsp;selector:
+      '[appTurnGreen]' <br />&rbrace;)<br />
+      export class TurnGreenDirective &lbrace;<br />&nbsp;&nbsp;&nbsp;&nbsp;...<br />&rbrace;
+    </span>
+    <br /><br />
+    In the custom directive above, we typically add directives with attribute
+    selector, but technically the selector of a directive can be configure just
+    like the selector of a component. So Angular will fund this instruction,
+    where we defined our directive with the
+    <span class="code">@Directive</span> decorator and which holds the logic to
+    'turn it green', in this case.
+  </p>
+  <br /><br />
+  <h3><b>Using ngIf to Output Data Conditionally</b></h3>
+  <br />
+  <p>
+    Continue with the <i>servers</i> component example, we now want to show the
+    <i>'Server was created!</i> message conditioned to the button click. For
+    that, we'll use <b><i>ngIf</i></b> builtin directive. It works like an
+    <b><i>if</i></b> statement: <br /><br />
+    <span class="code"
+      >&lt;p &ast;ngIf="serverCreated">Server was created, server name
+      is:&lbrace; &lbrace; serverName &rbrace; &rbrace;&lt;/p></span
+    ><br /><br />
+    <b><i>*ngIf</i></b> has a <b><i>*</i></b> because is a structure directive,
+    it changes the structure of the DOM; It also must call a method with
+    instruction returning true or false, adding or removing, in this case.
+    <br /><br />
+    <span class="code no-border">
+      export class ServersComponent implements OnInit &lbrace;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;serverCreated = false; <br /><br />
+      onCreateServer() &lbrace;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;this.serverCreated = true;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;this.serverCreationStatus = 'Server was created!
+      Name is' + this.serverName;<br />
+      &rbrace; </span
+    ><br /><br />
+  </p>
+  <div class="card">
+    <div class="card-header"><b>Result View</b></div>
+    <div class="card-body"><app-servers></app-servers></div>
+  </div>
+  <br /><br />
+  <h3><b>Enhancing ngIf with an Else Condition</b></h3>
+  <br />
+  <p>
+    With our <i>server</i> component, we want to attribute
+    <i>'No server was created!'</i> like an <b>else</b> statement to server
+    creation: <br /><br />
+    <span class="code">
+      &lt;ng-template #noServer>&lt;p>No server was
+      created&lt;/p>&lt;/ng-template> </span
+    ><br /><br />
+    Here we're holding the paragraph using a <b>local reference</b>
+    <i>'#noServer'</i> (as a marker for now) and the directive
+    <span class="code">&lt;ng-template></span>, which you can use to mark places
+    in the DOM that you want to show conditionally <br /><br />
+    To enhance the <b><i>*ngIf</i></b> with an <b><i>else</i></b> condition, we
+    add the <b>local reference</b> name in the <b>"if"</b> paragraph: <br />
+    <span class="code"
+      >&lt;p &ast;ngIf="serverCreated; else noServer">Server was created, server
+      name is:&lbrace; &lbrace; serverName &rbrace; &rbrace;&lt;/p></span
+    >
+  </p>
+  <div class="card">
+    <div class="card-header"><b>Result View</b></div>
+    <div class="card-body"><app-servers></app-servers></div>
+  </div>
+  <br />
+  You can also use just the 'reverse' check <b>(!)</b> in the <b>"if"</b> line
+  code:<br />
+  <span class="code">
+    &lt;p &ast;ngIf="!serverCreated">Server was created, server name is:&lbrace;
+    &lbrace; serverName &rbrace; &rbrace;&lt;/p>
+  </span>
+  <br /><br />
+  <h3><b>Styling Elements Dynamically with ngStyle</b></h3>
+  <br />
+  <p>
+    Other type of directives are attribute directives, which are call like this
+    becasue kthey are really just look like normal HTML attributes
+    <b>(whithout the *)</b><; Unlike structure directives, attribute directives
+    <b>don't add or remove elements</b>, they only change the element
+    <b>they were placed on</b><br /><br />
+    In the <b><i>'server'</i></b> TS file
   </p>
 </div>

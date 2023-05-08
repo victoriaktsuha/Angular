@@ -11,6 +11,8 @@ import {Component, OnInit} from '@angular/core';
 export class ServersComponent implements OnInit {
   allowNewServer = false;
   serverCreationStatus = 'No server was created!';
+  serverName = '';
+  serverCreated = false;
 
   constructor() {
     setTimeout(() => {
@@ -21,7 +23,12 @@ export class ServersComponent implements OnInit {
   ngOnInit(): void {}
 
   onCreateServer() {
-    this.serverCreationStatus = 'Server was created!';
+    this.serverCreated = true;
+    this.serverCreationStatus = 'Server was created! Name is' + this.serverName;
   }
   //Beggining the method name with 'on..' make more easy to know that is a event binding, some reaction to user action
+  onUpdateServerName(event: Event) {
+    this.serverName = (<HTMLInputElement>event.target).value;
+    //(<HTMLInputElement>event.target) is needed to inform TS that we know that the type of the HTML element of this event will be a HTML input element
+  }
 }
