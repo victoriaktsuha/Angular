@@ -1107,11 +1107,228 @@
   <h3>Planning the App</h3>
   <br />
   <p>
-    1. Layout the structure of the app and speccially plan which components
+    1. Layout the structure of the app and specially plan which components
     you're probably going to need
   </p>
   <!-- <svg focusable="false" aria-label="app">
     <use href="../assets/sprite.svg#Recipie-app-structure"></use>
   </svg> -->
   <img style="width: 100%" src="../assets/images/Recipie-app-structure.png" />
+  <br /><br /><br />
+  <h3>
+    <b>Creating a New App Correctly</b>
+  </h3>
+  <br />
+  <p>
+    Make sure, you do create that app by also adding the
+    <span class="code">--no-strict</span> flag to the
+    <span class="code">ng new</span> command - otherwise you will run into
+    issues later on (we'll still dive into that "Strict Mode" later in the
+    course of course, no worries)!<br /><br />
+
+    We'll also install the Bootstrap CSS Framework and in this course, we use
+    version 3 of the framework. Install it via
+    <span class="code">npm install --save bootstrap@3</span> => The
+    <span class="code">@3</span> is important!<br /><br />
+
+    Additionally, when using a project created with Angular CLI 6+ (check via ng
+    v ), you'll have an <span class="code">angular.json</span> file instead of
+    an <span class="code">.angular-cli.json</span> file. In that file, you still
+    need to add Bootstrap to the <span class="code">styles[]</span> array as
+    shown in the next video, but the path should be
+    node_modules/bootstrap/dist/css/bootstrap.min.css , NOT
+    ../node_modules/bootstrap/dist/css/bootstrap.min.css . The leading ../ must
+    not be included.<br /><br />
+    The project was created separately from this app. (<a
+      href="http://localhost:4700/"
+      >http://localhost:4700/</a
+    >)
+  </p>
+  <br /><br />
+  <h5><b>Our new app looks like this at this point ...</b></h5>
+  <br />
+  <p>
+    We've created the project itself (ReciPie App) and the components as
+    planned: the header component, the recipe and the shopping list components
+    and its child components
+  </p>
+  <br />
+  <img src="../assets/images/recipie-app-1.png" style="width: 100%" /><br />
+  <br /><br />
+  <h3><b>Alternative Non-Collapsable Navigation Bar</b></h3>
+  <br />
+  <p>
+    The way we added it, the Navbar will collapse on smaller screens. Since we
+    didn't implement a Hamburger menu, that means that there's no way of
+    accessing our links on smaller screens. <br /><br />
+
+    You can either add such a menu on your own (see below), or you replace
+    <span class="code">collapse navbar-collapse</span> >with just
+    <span class="code">navbar-default.</span>
+
+    Adding a Hamburger Menu: <br /><br />
+    Alternatively, if you want to make the navigation bar responsive, please
+    replace these lines in
+    <span class="code">header.component.html</span>:<br />
+  </p>
+  <pre>
+    <code class="code no-border">
+      &lt;div class=&quot;navbar-header&quot;&gt;
+        &lt;a routerLink=&quot;/&quot; class=&quot;navbar-brand&quot;&gt;Recipe Book&lt;/a&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;collapse navbar-collapse&quot;&gt;
+    </code>
+  </pre>
+  with these lines:
+  <pre>
+    <code class="code no-border">
+      &lt;div class=&quot;navbar-header&quot;&gt;
+        &lt;button type=&quot;button&quot; class=&quot;navbar-toggle&quot; (click)=&quot;collapsed = !collapsed&quot;&gt;
+        &lt;span class=&quot;icon-bar&quot; *ngFor=&quot;let iconBar of [1, 2, 3]&quot;&gt;&lt;/span&gt;
+        &lt;/button&gt;
+        &lt;a routerLink=&quot;/&quot; class=&quot;navbar-brand&quot;&gt;Recipe Book&lt;/a&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;navbar-collapse&quot; [class.collapse]=&quot;collapsed&quot; (window:resize)=&quot;collapsed = true&quot;&gt;
+    </code>
+  </pre>
+
+  and add this line to <span class="code">header.component.ts</span>:<br />
+  <pre>
+    <code class="code no-border">
+      collapsed = true;
+    </code>
+  </pre>
+  <br /><br />
+  <h3><b> Creating a Model</b></h3>
+  <br />
+  <p>
+    A model is a Typescript file where you define how an object should look like
+    whatever you use it, in this project case, a recipe.<br /><br />In the
+    component folder, we created a <span class="code">.model.ts</span> file:
+  </p>
+  <pre>
+    <code class="code no-border">
+      export class Recipe &lbrace;
+        public name: string;
+        public description: string;
+        public imagePath: string;
+        
+        constructor(name: string, desc: string, imagePath: string) &lbrace;
+          this.name = name;
+          this.description = desc;
+          this.imagePath = imagePath;
+        &rbrace;
+      &rbrace;
+    </code>
+  </pre>
+  <p>A model is just a blueprint for objects we create</p>
+  <br /><br />
+  <h3><b>Adding Content to the Recipes Components (using model)</b></h3>
+  <br />
+  <p>In the <span class="code">recipe-list.component.ts</span>, we add:</p>
+  <pre>
+    <code class="code no-border">
+      export class RecipeListComponent implements OnInit &lbrace;
+        recipes: Recipe[] = [
+          new Recipe(
+            'A Test Recipe',
+            'This is simply a test',
+            'https://www.supergoldenbakes.com/wordpress/wp-content/uploads/2019/10/Hungarian_Goulash_s.jpg'
+          ),
+        ];
+      
+        constructor() &lbrace;&rbrace;
+        ngOnInit(): void &lbrace;&rbrace;
+      &rbrace;
+    </code>
+  </pre>
+  <p>
+    The <span class="code">Recipe[]</span> became the type of the property (our
+    won property), like <span class="code">name: string</span><br /><br />
+    Now the TS 'knows' that the only thing which will get stored in this
+    <span class="code">recipes</span> property is an array, which holds a couple
+    of recipe object. <br /><br />
+    In the method <span class="code">new Recipe()</span>, we passed the
+    parameters that we defined in the <span class="code">model.ts</span>: the
+    name, the description and the image. <br /><br />
+    To informe TS where this type <span class="code">Recipes</span> is coming
+    from, we add at <span class="code">recipe-list.component.ts</span>:
+  </p>
+  <pre>
+    <code class="code no-border">
+      import &lbrace; Recipe &rbrace; from &apos;../recipe.model&apos;
+    </code>
+  </pre>
+  <p>
+    To see that output, we're going to add a
+    <span class="code">*ngFor=&quot;let recipe of recipes&quot;</span> in the
+    embracing tag <span class="code">&lt;a></span> that holds the object
+    properties (name, description and image) and now we can access the arguments
+    and use the <b>string interpolation</b> to add the values dinamically
+  </p>
+  <pre>
+    <code class="code no-border">
+      &lt;div class=&quot;row&quot;&gt;
+        &lt;div class=&quot;col-xs-12&quot;&gt;
+          &lt;button class=&quot;btn btn-success&quot;&gt;New Recipe&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;row&quot;&gt;
+        &lt;div class=&quot;col-xs-12&quot;&gt;
+          &lt;a href=&quot;#&quot; class=&quot;list-group-item clearfix&quot; *ngFor=&quot;let recipe of recipes&quot;&gt;
+            &lt;div class=&quot;pull-left&quot;&gt;
+              &lt;h4 class=&quot;list-group-item-heading&quot;&gt;&lbrace; &lbrace; recipe.name &rbrace; &rbrace;&lt;/h4&gt;
+              &lt;p class=&quot;list-group-item-text&quot;&gt;&lbrace; &lbrace; recipe.description &rbrace; &rbrace;&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;span class=&quot;pull-right&quot;&gt;
+              &lt;img
+                [src]=&quot;recipe.imagePath&quot;
+                alt=&quot;&lbrace; &lbrace; recipe.name &rbrace; &rbrace; &quot;
+                class=&quot;img-responsive&quot;
+                style=&quot;max-height: 50px&quot;
+              /&gt;
+            &lt;/span&gt;
+            &lt;!-- we could use also src=&quot;&lbrace; &lbrace; recipe.imagePath &rbrace; &rbrace;&quot;  --&gt;
+          &lt;/a&gt;
+          &lt;app-recipe-item&gt;&lt;/app-recipe-item&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    </code>
+  </pre>
+  <img
+    src="../assets/images/recipie-app-2.png"
+    alt=""
+    class="img-responsive"
+    style="width: 100%" /><br /><br /><br /><br />
+  <p>
+    If we add more <span class="code">new Recipe()</span> methods in the
+    <span class="code">recipe-list.component.ts</span>, it will successfull
+    multplicate it in the output <br /><br />
+    <img
+      src="../assets/images/recipie-app-2.2.png"
+      alt=""
+      class="img-responsive"
+      style="width: 100%" /><br />
+  </p>
+  <br /><br />
+  <h3><b>Displaying Recipe Details</b></h3>
+  <br />
+  <p>
+    For now, we just added a layout for these details in the
+    <span class="code">recipe-details.component.html</span>, discovering later
+    how to stablish communication between to components, to for example, click
+    on the recipe on the left (<span class="code no-border"
+      >recipe-list.component</span
+    >), and show the ingredients (<span class="code no-border"
+      >recipe-item.component</span
+    >) and images on the right (<span class="code no-border"
+      >recipe-details.component</span
+    >):
+  </p>
+  <br />
+  <img
+    src="../assets/images/recipie-app-3.png"
+    alt=""
+    class="img-responsive"
+    style="width: 100%" /><br /><br />
 </div>
