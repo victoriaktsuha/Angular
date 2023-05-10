@@ -1331,4 +1331,171 @@
     alt=""
     class="img-responsive"
     style="width: 100%" /><br /><br />
+  <br /><br />
+  <h3><b> Working on the ShoppingListComponent</b></h3>
+  <br />
+  <p>
+    At the <span class="code">shopping-list.component.html</span>, we adjust the
+    layout to receive a list of ingredients:
+  </p>
+  <pre>
+  <code class="code no-border">
+    &lt;div class=&quot;row&quot;&gt;
+      &lt;div class=&quot;col-xs-10&quot;&gt;
+        &lt;app-shopping-edit&gt;&lt;/app-shopping-edit&gt;
+        &lt;hr /&gt;
+        &lt;ul class=&quot;list-group&quot;&gt;
+          &lt;a class=&quot;list-group-item&quot; style=&quot;cursor: pointer&quot;&gt;&lt;/a&gt;
+        &lt;/ul&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  </code>
+</pre>
+  <p>
+    And in the <span class="code">shopping-list.component.ts</span>, we added a
+    property <span class="code"> ingredients = [];</span> that will receive the
+    ingredients array and since we're going to use <i>ingredients</i> with a
+    certain frenquency, it makes sense to create a model for that.<br /><br />
+    In the <i>app</i> folder, we created a new folder call
+    <span class="code">shared</span>. It will contain features or elements of
+    the app which are shared across different features, like the ingridient,
+    which we're going to use in two or more different components.<br /><br />
+    Inside this folder, we're going to create the
+    <span class="code">ingredient.model.ts</span>, with the structure:
+  </p>
+  <pre>
+    <code class="code no-border">
+      export class Ingredient &lbrace;
+        constructor(public name: string, public amount: number) &lbrace;&rbrace;
+      &rbrace;
+    </code>
+  </pre>
+  <p>This is a short and easy way to declare an model</p>
+  <br /><br />
+  <h3><b>Creating and Outputting the Shopping List</b></h3>
+  <br />
+  <p>
+    Now, let's import <span class="code">ingredient.model.ts</span> into the
+    <span class="code">shopping-list.component.ts</span>:
+  </p>
+  <pre>
+    <code class="code no-border">
+      import &lbrace; Ingredient &rbrace; from '../shared/ingredient.model';
+
+      export class ShoppingListComponent implements OnInit &lbrace;
+        ingredients: Ingredient[] = [
+          new Ingredient('Apples', 5),
+          new Ingredient('Tomatoes', 10)
+        ];
+      &rbrace;
+    </code>
+  </pre>
+  <p>
+    We're going to outputting this data in the
+    <span class="code">shopping-list.component.html</span> through the
+    <span class="code">*ngFor</span> directive to loop all over the array items
+    we added in the <span class="code">shopping-list.component.ts</span> and
+    <b>string interpolation</b> in the
+    <span class="code">shopping-list.component.html</span> to output item by
+    item:
+  </p>
+  <pre>
+    <code class="code no-border">
+      &lt;div class=&quot;row&quot;&gt;
+        &lt;div class=&quot;col-xs-10&quot;&gt;
+          &lt;app-shopping-edit&gt;&lt;/app-shopping-edit&gt;
+          &lt;hr /&gt;
+          &lt;ul class=&quot;list-group&quot;&gt;
+            &lt;a
+              class=&quot;list-group-item&quot;
+              style=&quot;cursor: pointer&quot;
+              *ngFor=&quot;let ingredient of ingredients&quot;
+              &gt;&lbrace; &lbrace; ingredient.name &rbrace; &rbrace; (&lbrace; &lbrace; ingredient.amount &rbrace; &rbrace;)&lt;/a
+            &gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    </code>
+  </pre>
+  <img
+    src="../assets/images/recipie-app-4.png"
+    alt=""
+    class="img-responsive"
+    style="width: 100%" /><br /><br />
+  <br /><br />
+  <h3><b>Adding a Shopping List Edit Section</b></h3>
+  <br />
+  <p>
+    To <span class="code">shopping-edit.component</span>, we adjusted the HTML
+    structure:
+  </p>
+  <pre>
+    <code class="code no-border">
+      &lt;div class=&quot;row&quot;&gt;
+        &lt;div class=&quot;col-xs-12&quot;&gt;
+          &lt;form&gt;
+            &lt;div class=&quot;row&quot;&gt;
+              &lt;div class=&quot;col-sm-5 form-group&quot;&gt;
+                &lt;label for=&quot;name&quot;&gt;Name&lt;/label&gt;
+                &lt;input type=&quot;text&quot; id=&quot;name&quot; class=&quot;form-control&quot; /&gt;
+              &lt;/div&gt;
+              &lt;div class=&quot;col-sm-2 form-group&quot;&gt;
+                &lt;label for=&quot;amount&quot;&gt;Amount&lt;/label&gt;
+                &lt;input type=&quot;text&quot; id=&quot;Amount&quot; class=&quot;form-control&quot; /&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;br /&gt;
+            &lt;div class=&quot;row&quot;&gt;
+              &lt;div class=&quot;col-xs-12&quot;&gt;
+                &lt;button class=&quot;btn btn-success&quot; type=&quot;submit&quot;&gt;Add&lt;/button&gt;
+                &lt;button class=&quot;btn btn-danger&quot; type=&quot;button&quot;&gt;Delete&lt;/button&gt;
+                &lt;button class=&quot;btn btn-primary&quot; type=&quot;button&quot;&gt;Clear&lt;/button&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/form&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;      
+    </code>
+  </pre>
+  <img
+    src="../assets/images/recipie-app-5.png"
+    alt=""
+    class="img-responsive"
+    style="width: 100%" /><br /><br />
+  <br /><br />
+  <h3><b>Understanding Angular Error Messages</b></h3>
+  <br />
+  <p>
+    <b>1.</b> Get used to have your console (dev. tools) opened, so you can
+    follow up what's happening <br /><br />
+    <b>2.</b> You can identify the error by the file name, the line number
+    pointed (not the exactly line, but works like a clue) and usually the
+    console will tell you the cause too - like 'Cannot read property X', or 'X
+    method is not defined', etc.. <br /><br /><b>3.</b> The UI interaction can
+    be a clue too, like a button click, a key press - this kind of event can be
+    attached to the error trigger <br /><br /><b>4.</b> Don't forget to define
+    your property (e.g. <span class="code">name: string;</span>), not just
+    declare it (e.g. <span class="code">name;</span>)
+  </p>
+  <br /><br />
+  <h3><b>Debugging Code in the Browser Using Sourcemaps</b></h3>
+  <br />
+  <p>
+    Sometimes reading the error messages is not enough, or you don't even get a
+    error message, like getting a logical error in the code. <br /><br />
+    In the browser dev. tools, you can access the
+    <span class="code">Sources</span> tab with all the script bundles related to
+    the app and add a break point in the line maybe is responsible for the
+    issue, in the <span class="code">main.bundle</span>, for example, that like
+    the name says, its the main script source of your app. This problably will
+    access the TS file related to that line, and since Typescript doesn't run in
+    the browser, that's possible because these bundles supports source maps,
+    that's is added to the bundles by the CLI. It allow the browser to translate
+    the JS code to TS code, or map the JS code to TS files. <br /><br />
+    The debugger will run step by step according to the logic of your code,
+    pausing before each step so you can see what's happening in the code while
+    runtime and identify the error.<br /><br />
+    Running the entire main.bundle can be hard, so you can access the TS files
+    in the <span class="code">webpack</span> folder in the web dev. tools 🤡
+  </p>
 </div>
