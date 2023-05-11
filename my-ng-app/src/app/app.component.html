@@ -1,40 +1,62 @@
 <div class="container">
-  <div style="text-align: center">
+  <div>
     <br />
-    <h1>Welcome to {{ title }}!</h1>
-    <img
+    <h1>
+      <b>{{ title }}</b>
+    </h1>
+    <!-- <img
       width="300"
       alt="Angular Logo"
-      src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==" />
+      src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==" /> -->
   </div>
   <br />
-  <h2>Here are some links to help you start:</h2>
+  <p>
+    This content was created with the intention of exploring my own learning
+    journey in order to reinforce it and is based on the
+    <a href="https://www.udemy.com/">Udemy</a> course
+    <a
+      href="https://ssgacademy.udemy.com/course/the-complete-guide-to-angular-2">
+      Angular - The Complete Guide (2023 Edition)
+    </a>
+    well-instructed by
+    <a href="https://www.udemy.com/user/maximilian-schwarzmuller/"
+      >Maximilian Schwarzmüller</a
+    >
+  </p>
+  <p>
+    <b>
+      I emphasize that these texts are my own authorship and do not represent
+      the opinion and responsibility of Udemy or the instructor in any way. Any
+      conflicts or problems with the content, or even feedback, will be welcome
+      in this
+      <a
+        href="mailto:victoriaktsuha@gmail.com?subject=[Contact] My Angular Journey&bcc=victoriaktsuha@outlook.com&body=Olá! O motivo do meu contato é"
+        >email</a
+      ></b
+    >
+  </p>
+  <br />
+  <h5>Here are some Angular official links to help you start:</h5>
   <ul>
     <li>
-      <h2>
-        <a target="_blank" rel="noopener" href="https://angular.io/tutorial"
-          >Tour of Heroes</a
-        >
-      </h2>
+      <a target="_blank" rel="noopener" href="https://angular.io/tutorial"
+        >Tour of Heroes</a
+      >
     </li>
     <li>
-      <h2>
-        <a target="_blank" rel="noopener" href="https://angular.io/cli"
-          >CLI Documentation</a
-        >
-      </h2>
+      <a target="_blank" rel="noopener" href="https://angular.io/cli"
+        >CLI Documentation</a
+      >
     </li>
     <li>
-      <h2>
-        <a target="_blank" rel="noopener" href="https://blog.angular.io/"
-          >Angular blog</a
-        >
-      </h2>
+      <a target="_blank" rel="noopener" href="https://blog.angular.io/"
+        >Angular blog</a
+      >
     </li>
   </ul>
   <hr />
   <br />
-  <h1 id="1"><b>#1 Getting Started</b></h1>
+  <h2 id="1"><b>#1 Getting Started</b></h2>
   <br /><br />
   <h3><b>Course Structure</b></h3>
   <br />
@@ -329,7 +351,8 @@
   <p>
     Open a new terminal/CLI (to not close where server is running), and run:
   </p>
-  <span class="code">ng generate component name-component</span><br />
+  <span class="code">ng generate component name-component --skip-tests</span
+  ><br />
   <span class="obs"
     >*The component will be automatically created inside the app folder</span
   ><br /><br />
@@ -1498,4 +1521,324 @@
     Running the entire main.bundle can be hard, so you can access the TS files
     in the <span class="code">webpack</span> folder in the web dev. tools 🤡
   </p>
+  <br /><br />
+  <h3><b>Splitting Apps into Components</b></h3>
+  <br />
+  <p>
+    For this lecture, we've created a new app
+    <span class="code">cmd-databinding-start</span> to explore components and
+    databinding along the project
+  </p>
+  <img
+    src="../assets/images/cmp-databinding-1.png"
+    alt=""
+    class="img-responsive"
+    style="width: 100%" /><br /><br />
+  <p>
+    To enhance the app structure, we're going to split the app logic into
+    components, avoiding concentrate all the methods just in the
+    <span class="code">app.component</span>, so we could reuse it and it'll be a
+    lot easier to update and do maintenance.
+  </p>
+  <p>
+    We've created 2 new components at the
+    <span class="code">app.component</span> folder: the
+    <span class="code">cockpit.component</span>, to where we moved the part of
+    the 'CRUD' and the <span class="code">server-element.component</span>, to
+    where we moved the content which will receive the new servers created. Now
+    we need to pass data from <span class="code">cockpit.component</span> to ➡
+    <span class="code">server-element.component</span>
+  </p>
+  <br /><br />
+  <h3><b>Property & Event Binding Overview</b></h3>
+  <br />
+  <p>
+    Somehow, when we used the property and event binding back there, we're
+    passing ans receiving 'data' too. We can use Native Properties & Events from
+    the <b>HTML elements</b>; We can use Custom Properties & Events from the
+    <b>Directives</b>, like we already did with
+    <span class="code">ngClass</span> and <span class="code">ngStyle</span>; And
+    finally we can also use our own Custom Properties & Events from our own
+    <b>Components</b>
+  </p>
+  <br /><br />
+  <h3><b>Binding to Custom Properties</b></h3>
+  <br />
+  <p>
+    To output the servers/blueprint created, the
+    <span class="code">app.component</span> need to access the
+    <span class="code">server-element.component</span>, so it need to be
+    accessible from outside of its own component. But first, we moved the
+    <span class="code">element</span> property definiton to the
+    <span class="code">server-element.component.ts</span> file, since we're
+    adjusting the app logic to separated components.
+  </p>
+  <pre>
+    <h5>server-element.component.html</h5>
+    <code class="code no-border">
+      &lt;div class=&quot;panel panel-default&quot;&gt;
+        &lt;div class=&quot;panel-heading&quot;&gt;&lbrace; &lbrace; element.name &rbrace; &rbrace;&lt;/div&gt;
+        &lt;div class=&quot;panel-body&quot;&gt;
+          &lt;p&gt;
+            &lt;strong *ngIf=&quot;element.type === &apos;server&apos;&quot; style=&quot;color: red&quot;&gt; &lbrace; &lbrace;
+              element.content
+            &rbrace; &rbrace;&lt;/strong&gt;
+            &lt;em *ngIf=&quot;element.type === &apos;blueprint&apos;&quot;&gt;&lbrace; &lbrace; element.content &rbrace; &rbrace;&lt;/em&gt;
+          &lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    </code>
+  </pre>
+  <pre>
+    <h5>server-element.component.ts</h5>
+    <code class="code no-border">
+      export class ServerElementComponent &lbrace;
+        element: &lbrace; type: string; name: string; content: string &rbrace;
+      &rbrace;
+    </code>
+  </pre>
+  <p>
+    <i>Type</i>, <i>name</i> and <i>content</i> are not values, they're like
+    property types. Values must be in the 'right' side of the equal sign '=';
+    Before that '=', we're defining types.
+  </p>
+  <p>
+    In the <span class="code">app.component.ts</span>, we create the array that
+    will be looped in the <span class="code">app.component.ts</span> with the
+    property values:
+  </p>
+  <pre>
+    <code class="code no-border">
+      export class AppComponent &lbrace;
+        serverElements = [
+          &lbrace; type: 'server', name: 'Testserver', content: 'Just a test!' &rbrace;,
+        ];
+      &rbrace;
+    </code>
+    <span class="obs">Here, the keys inside the &lbrace; &rbrace; represent values because they're in the 'right' side if the '=' sign</span>
+  </pre>
+  <p>
+    But the <span class="code">app.component.ts</span> still need access to the
+    <span class="code">server-element.component</span> to fetch the
+    <span class="code">element</span> property, which defines the properties and
+    these property types, and bind it to the
+    <span class="code">server-element</span> HTML structure, that will be part
+    of the view in the UI. We could bind the
+    <span class="code">element</span> property in the
+    <span class="code">app.component</span> HTML:
+    <span class="code">&lbrack;element&rbrack;="serverElement"</span>, but we
+    still couldn't access it because properties it'd still just accessible for
+    its own component, not from the outside. <br /><br />
+    So we have to be explicit about which properties you want to expose. If you
+    want to allow parent components to be able to bind this property, you need
+    to add the <span class="code">@Input</span> decorator (and also import it in
+    the component which its being declared). Now any aprent component, or any
+    component hosting the
+    <span class="code">server-element.component</span> (implemeting it through
+    its selector) is able to bind the <span class="code">element</span> property
+    <br /><br />
+    <img
+      src="../assets/images/cmp-databinding-2.png"
+      alt=""
+      class="img-responsive"
+      style="width: 100%" /><br /><br />
+  </p>
+  <br /><br />
+  <h3><b>Assigning an Alias to Custom Properties</b></h3>
+  <br />
+  <p>
+    To avoid using the same property name inside and outside the component, you
+    can pass an argument to <span class="code">@Input</span> with the property
+    name as you want to have it outside of this component: <br /><br />
+    <span class="code">@Input('srvElement')</span><br /><br />
+    And outside bind it like this:
+    <span class="code">&lbrack;srvElement&rbrack;="serverElement"</span>
+  </p>
+  <br /><br />
+  <h3><b>Binding to Custom Events</b></h3>
+  <br />
+  <p>
+    We learned how to pass data from a component down to another component which
+    was implemented there. Now we want to do the reverse, we want to inform the
+    parent component that some event happened in the inner component. For
+    example, we got the <span class="code">cockpit.component</span> selector
+    implemented in the <span class="code">app.component</span> HTML, and in the
+    <span class="code">cockpit.component</span> we have 2 buttons. When its
+    clicked, a new server/blueprint is created. And we want to inform our parent
+    component <span class="code">app.component</span> when this happen.
+    <br /><br />
+    So we copy the methods from <span class="code">cockpit.component</span> TS
+    file to <span class="code">app.component</span> TS file and make some
+    adjustment:
+  </p>
+  <pre>
+    <h5>app.component.ts</h5>
+    <code class="code no-border">
+      onServerAdded(serverData: &lbrace; serverName: string; serverContent: string &rbrace;) &lbrace;
+        this.serverElements.push(&lbrace;
+          type: &apos;server&apos;,
+          name: serverData.serverName,
+          content: serverData.serverContent,
+          &rbrace;);
+          &rbrace;
+    
+      onBlueprintAdded(blueprintData: &lbrace;
+        serverName: string;
+        serverContent: string;
+        &rbrace;) &lbrace;
+        this.serverElements.push(&lbrace;
+          type: &apos;blueprint&apos;,
+          name: blueprintData.serverName,
+          content: blueprintData.serverContent,
+          &rbrace;);
+          &rbrace;
+    </code>
+  </pre>
+  <pre>
+    <h5>app.component.html</h5>
+    <code class="code no-border">
+      &lt;div class=&quot;container&quot;&gt;
+        &lt;app-cockpit (serverCreated)=&quot;onServerAdded($event)&quot; (blueprintCreated)=&quot;onBlueprintAdded($event)&quot;&gt;&lt;/app-cockpit&gt;
+        &lt;hr /&gt;
+        &lt;div class=&quot;row&quot;&gt;
+          &lt;div class=&quot;col-xs-12&quot;&gt;
+            &lt;app-server-element
+              *ngFor=&quot;let serverElement of serverElements&quot;
+              [srvElement]=&quot;serverElement&quot;
+            &gt;&lt;/app-server-element&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    </code>
+  </pre>
+  <p>
+    In the <span class="code">cockpit.component.ts</span> we need to emit our
+    own event, so we add to new properties:
+  </p>
+  <pre>
+    <code class="code no-border">
+      export class CockpitComponent &lbrace;
+        serverCreated = new EventEmitter&lt;&gt;;
+        blueprintCreates = new EventEmitter&lt;&gt;;
+        &rbrace;
+    </code>
+  </pre>
+  <p>
+    This <span class="code">new EventEmitter</span> indicated in Typescript by
+    using this <span class="code">&lt;&gt;</span> sign, the type of the event
+    data you're going to emit. And we need these <span class="code">()</span> at
+    the end to call the constructor of EventEmitter and create a new
+    EventEmitter object, which is now stored in
+    <span class="code">serverCreated</span>. It allows you to emit your own
+    events. *It also need to be imported, but generally Angular import
+    automatically as soon as you write the method name.
+  </p>
+  <pre>
+    <h5>cockpit.component.ts</h5>
+    <code class="code no-border">
+      import &lbrace; Component, EventEmitter &rbrace; from &apos;@angular/core&apos;;
+
+        @Component(&lbrace;
+          selector: &apos;app-cockpit&apos;,
+          templateUrl: &apos;./cockpit.component.html&apos;,
+          styleUrls: [&apos;./cockpit.component.css&apos;],
+        &rbrace;)
+        export class CockpitComponent &lbrace;
+          serverCreated = new EventEmitter&lt;&lbrace;
+            serverName: string;
+            serverContent: string;
+          &rbrace;&gt;();
+          blueprintCreated = new EventEmitter&lt;&lbrace;
+            serverName: string;
+            serverContent: string;
+          &rbrace;&gt;();
+          newServerName = &apos;&apos;;
+          newServerContent = &apos;&apos;;
+
+          onAddServer() &lbrace;
+            this.serverCreated.emit(&lbrace;
+              serverName: this.newServerName,
+              serverContent: this.newServerContent,
+            &rbrace;);
+          &rbrace;
+
+          onAddBlueprint() &lbrace;
+            this.blueprintCreated.emit(&lbrace;
+              serverName: this.newServerName,
+              serverContent: this.newServerContent,
+            &rbrace;);
+          &rbrace;
+        &rbrace;
+    </code>
+  </pre>
+  <p>
+    With all that, we're emitting our own events but we need to make our event
+    methods 'listenable' from outside adding
+    <span class="code">@Output()</span> decorator (<span class="code"
+      >@Input()</span
+    >
+    make properties being 'bindable' outside).
+  </p>
+  <pre>
+    <code class="code no-border">
+      @Output() serverCreated = new EventEmitter&lt;&lbrace;
+        serverName: string;
+        serverContent: string;
+      &rbrace;&gt;();
+
+      @Output() blueprintCreated = new EventEmitter&lt;&lbrace;
+        serverName: string;
+        serverContent: string;
+      &rbrace;&gt;();
+
+    </code>
+  </pre>
+  <img
+    src="../assets/images/cmp-databinding-3.png"
+    alt=""
+    class="img-responsive"
+    style="width: 100%" /><br /><br />
+  <br /><br />
+  <h3><b>Assigning an Alias to Custom Events</b></h3>
+  <br />
+  <p>
+    Just like we did with <span class="code">@Input</span>, we can also create a
+    specific alias for them to use it outside the component
+  </p>
+  <pre>
+    <h5>cockpit.component.ts</h5>
+    <code class="code no-border">
+      @Output('svrCreated') serverCreated = new EventEmitter&lt;&lbrace;
+        serverName: string;
+        serverContent: string;
+      &rbrace;&gt;();
+
+      @Output('bpCreated') blueprintCreated = new EventEmitter&lt;&lbrace;
+        serverName: string;
+        serverContent: string;
+      &rbrace;&gt;();
+    </code>
+    <h5>app.component.html</h5>
+    <code class="code no-border">
+      &lt;app-cockpit
+        (svrCreated)=&quot;onServerAdded($event)&quot;
+        (bpCreated)=&quot;onBlueprintAdded($event)&quot;
+      &gt;&lt;/app-cockpit&gt;
+    </code>
+  </pre>
+  <br /><br />
+  <h3><b>Custom Property and Event Binding Summary</b></h3>
+  <br />
+  <ul>
+    <li>
+      <span class="code">@Input</span> - It's a key feature to components
+      communication and make properties bindable from outside from the parent
+      component
+    </li>
+    <li>
+      <span class="code">@Output</span> - Allows parent components using this
+      components to listen to your own events which you created with
+      <span class="code">new EventEmitter&lt;&lbrace;&rbrace;&gt;</span>
+    </li>
+  </ul>
 </div>

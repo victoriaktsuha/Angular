@@ -13,7 +13,7 @@ import {Component} from '@angular/core';
   ] */
 })
 export class AppComponent {
-  title = 'my-ng-app';
+  title = 'My Angular Journey 📚';
 
   username = '';
 
