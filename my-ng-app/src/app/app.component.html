@@ -275,7 +275,9 @@
     be started and that holds the selector <b><i>'app-root'</i></b
     >, which is included in the <b><i>index.html</i></b> (the
     <i>'single-page'</i>), closing the 'cycle'.<br /><br />
-    <img src="../assets/images/graf-angularstar.svg" style="width: 100%" />
+    <img
+      class="img-responsive d-flex m-auto"
+      src="../assets/images/graf-angularstar.svg" />
   </p>
   <br /><br />
   <h3><b>Components are important!</b></h3>
@@ -1136,7 +1138,9 @@
   <!-- <svg focusable="false" aria-label="app">
     <use href="../assets/sprite.svg#Recipie-app-structure"></use>
   </svg> -->
-  <img style="width: 100%" src="../assets/images/Recipie-app-structure.png" />
+  <img
+    class="img-responsive d-flex m-auto"
+    src="../assets/images/Recipie-app-structure.png" />
   <br /><br /><br />
   <h3>
     <b>Creating a New App Correctly</b>
@@ -1176,7 +1180,9 @@
     and its child components
   </p>
   <br />
-  <img src="../assets/images/recipie-app-1.png" style="width: 100%" /><br />
+  <img
+    src="../assets/images/recipie-app-1.png"
+    class="img-responsive d-flex m-auto" /><br />
   <br /><br />
   <h3><b>Alternative Non-Collapsable Navigation Bar</b></h3>
   <br />
@@ -1320,8 +1326,7 @@
   </pre>
   <img
     src="../assets/images/recipie-app-2.png"
-    alt=""
-    class="img-responsive"
+    class="img-responsive d-flex m-auto"
     style="width: 100%" /><br /><br /><br /><br />
   <p>
     If we add more <span class="code">new Recipe()</span> methods in the
@@ -1329,9 +1334,7 @@
     multplicate it in the output <br /><br />
     <img
       src="../assets/images/recipie-app-2.2.png"
-      alt=""
-      class="img-responsive"
-      style="width: 100%" /><br />
+      class="img-responsive d-flex m-auto" /><br />
   </p>
   <br /><br />
   <h3><b>Displaying Recipe Details</b></h3>
@@ -1352,8 +1355,7 @@
   <img
     src="../assets/images/recipie-app-3.png"
     alt=""
-    class="img-responsive"
-    style="width: 100%" /><br /><br />
+    class="img-responsive d-flex m-auto" /><br /><br />
   <br /><br />
   <h3><b> Working on the ShoppingListComponent</b></h3>
   <br />
@@ -1443,8 +1445,7 @@
   <img
     src="../assets/images/recipie-app-4.png"
     alt=""
-    class="img-responsive"
-    style="width: 100%" /><br /><br />
+    class="img-responsive d-flex m-auto" /><br /><br />
   <br /><br />
   <h3><b>Adding a Shopping List Edit Section</b></h3>
   <br />
@@ -1483,8 +1484,7 @@
   <img
     src="../assets/images/recipie-app-5.png"
     alt=""
-    class="img-responsive"
-    style="width: 100%" /><br /><br />
+    class="img-responsive d-flex m-auto" /><br /><br />
   <br /><br />
   <h3><b>Understanding Angular Error Messages</b></h3>
   <br />
@@ -1532,8 +1532,7 @@
   <img
     src="../assets/images/cmp-databinding-1.png"
     alt=""
-    class="img-responsive"
-    style="width: 100%" /><br /><br />
+    class="img-responsive d-flex m-auto" /><br /><br />
   <p>
     To enhance the app structure, we're going to split the app logic into
     components, avoiding concentrate all the methods just in the
@@ -1640,8 +1639,7 @@
     <img
       src="../assets/images/cmp-databinding-2.png"
       alt=""
-      class="img-responsive"
-      style="width: 100%" /><br /><br />
+      class="img-responsive d-flex m-auto" /><br /><br />
   </p>
   <br /><br />
   <h3><b>Assigning an Alias to Custom Properties</b></h3>
@@ -1796,8 +1794,7 @@
   <img
     src="../assets/images/cmp-databinding-3.png"
     alt=""
-    class="img-responsive"
-    style="width: 100%" /><br /><br />
+    class="img-responsive d-flex m-auto" /><br /><br />
   <br /><br />
   <h3><b>Assigning an Alias to Custom Events</b></h3>
   <br />
@@ -1841,4 +1838,314 @@
       <span class="code">new EventEmitter&lt;&lbrace;&rbrace;&gt;</span>
     </li>
   </ul>
+  <br /><br />
+  <h3><b>Understanding View Encapsulation</b></h3>
+  <br />
+  <p>
+    Angular treats the CSS files in an encapsulate way, which is not the browser
+    default behavior. The rules inside of the CSS file in the component folder
+    will work just in that component, ignoring the general rule of the CSS, that
+    apply your style in every element with that div, #id, .class, tag ...<br /><br />
+    Angular divide its elements by style attributes. So paragraphs with the same
+    Angular attributes (attributes injected by Angular itself, which can be seen
+    in the console) receive the same style refered to that attribute. It
+    emulates the shadow DOM, a technology not support by the most browsers.
+  </p>
+  <br /><br />
+  <h3><b>More on View Encapsulation</b></h3>
+  <br />
+  <p>
+    We can overrride this encapsultion adding
+    <span class="code">encapsulation: ViewEncapsulation.None</span> at the
+    <span class="code">component.ts</span> file decorator of your component.
+    <br />
+    It will turn your CSS styles into global rules. <br /><br />
+    You can also use
+    <span class="code">encapsulation: ViewEncapsulation.ShadowDom</span>, it
+    will gives you the same result as before overriding encapsulation, but
+    emulating only in supported browsers. <br />
+    <span class="code">encapsulation: ViewEncapsulation.Emulated</span> will
+    return the default result.
+  </p>
+  <br /><br />
+  <h3><b>Using Local References in Templates</b></h3>
+  <br />
+  <p>
+    A local reference can be used in any HTML element by adding a
+    <span class="code">#</span> and attributing a name for it <br /><br />
+    <span class="code"
+      >&lt;input type="text" class="form-control" #serverNameInput/></span
+    ><br /><br />
+    And its use to hold a reference to this HTML element whit all its
+    properties. We can see it passing as argument to the
+    <span class="code"
+      >&lt;button class="btn btn-primary"
+      &lpar;click&rpar;="onAddServer(serverNameInput)">Add
+      Server&lt;/button></span
+    ><br /><br />You can use <span class="code">#serveNameInput</span> only in
+    your template, not in the TS file of your component. But in your TS file,
+    now you need to add a parameter to the method you included
+    <span class="code">#serveNameInput</span>
+  </p>
+  <pre>
+    <code class="code no-border">
+      onAddServer(nameInput) &lbrace;
+        console.log(nameInput);
+        this.serverCreated.emit(&lbrace;
+          serverName: this.newServerName,
+          serverContent: this.newServerContent,
+          &rbrace;);
+      &rbrace;
+    </code>
+  </pre>
+  <img
+    src="../assets/images/cmp-databinding-4.png"
+    alt=""
+    class="img-responsive d-flex m-auto" /><br /><br />
+  The input displayed on the console is the exactly HTML element with all its
+  properties that we added the
+  <span class="code">#serveNameInput</span> and passed it as argument (and
+  parameter in the TS file) to the <i>Add Server</i> button.<br />
+  If we add <span class="code">.value</span> to
+  <span class="code">console.log(nameInput.value);</span> we can get just the
+  value typed on the field:
+  <pre>
+    <code class="code no-border">
+      onAddServer(nameInput) &lbrace;
+        console.log(nameInput.value);
+        this.serverCreated.emit(&lbrace;
+          serverName: this.newServerName,
+          serverContent: this.newServerContent,
+        &rbrace;);
+      &rbrace;
+    </code>
+  </pre>
+  <img
+    src="../assets/images/cmp-databinding-5.png"
+    alt=""
+    class="img-responsive d-flex m-auto" /><br /><br />
+  <p>
+    To use this data in the template as server/blueprint server name, we can
+    adjust the <span class="code">serverName:</span> property TS file:
+  </p>
+  <pre>
+    <code class="code no-border">
+      onAddServer(nameInput: HTMLInputElement) &lbrace;
+        this.serverCreated.emit(&lbrace;
+          serverName: nameInput.value,
+          serverContent: this.newServerContent,
+        &rbrace;);
+      &rbrace;
+    
+      onAddBlueprint(nameInput: HTMLInputElement) &lbrace;
+        this.blueprintCreated.emit(&lbrace;
+          serverName: nameInput.value,
+          serverContent: this.newServerContent,
+        &rbrace;);
+      &rbrace;
+    </code>
+  </pre>
+  <br /><br />
+  <h3><b>@ViewChild() in Angular 8+</b></h3>
+  <br />
+  <p>
+    In Angular 8+, the <span class="code">@ViewChild()</span> syntax which
+    you'll see in the next lecture needs to be changed slightly:<br /><br />
+
+    Instead of:<br />
+
+    <span class="code"
+      >@ViewChild('serverContentInput') serverContentInput: ElementRef;</span
+    >
+    use<br /><br />
+
+    <span class="code"
+      >@ViewChild('serverContentInput', &lbrace;static: true&rbrace;)
+      serverContentInput: ElementRef;</span
+    ><br /><br />
+    The same change (add
+    <span class="code">&lbrace; static: true &rbrace;</span> as a second
+    argument) needs to be applied to ALL usages of<span class="code">
+      @ViewChild()</span
+    >
+    (and also <span class="code">@ContentChild()</span> which you'll learn about
+    later) IF you plan on accessing the selected element inside of
+    <span class="code">ngOnInit()</span>.<br /><br />
+    If you DON'T access the selected element in
+    <span class="code">ngOnInit</span> (but anywhere else in your component),
+    set <span class="code">static: false</span> instead! <br /><br />
+    If you're using Angular 9+, you only need to add
+    <span class="code">&lbrace; static: true &rbrace; </span> (if needed) but
+    not <span class="code">&lbrace; static: false &rbrace;</span>.
+  </p>
+  <br /><br />
+  <h3><b>Getting Access to the Template & DOM with @ViewChild</b></h3>
+  <br />
+  <p>
+    There is another way of gettinf access to local references or to any
+    element, directly from within our Typescript code, like getting access
+    before calling a meth
+  </p>
+
+  <pre>
+      <h5>cockpit.component.html</h5>
+      <code class="code no-border">
+        &lt;input type=&quot;text&quot; class=&quot;form-control&quot; #serverContentInput /&gt;
+      </code>
+    </pre>
+  <pre>
+      <h5>cockpit.component.ts</h5>
+      <code class="code no-border">
+        @ViewChild(&apos;serverContentInput&apos;, &lbrace; static: true &rbrace;)
+        serverContentInput: ElementRef;
+      
+        onAddServer(nameInput: HTMLInputElement) &lbrace;
+          this.serverCreated.emit(&lbrace;
+            serverName: nameInput.value,
+            serverContent: this.serverContentInput.nativeElement.value,
+          &rbrace;);
+        &rbrace;
+      
+        onAddBlueprint(nameInput: HTMLInputElement) &lbrace;
+          this.blueprintCreated.emit(&lbrace;
+            serverName: nameInput.value,
+            serverContent: this.serverContentInput.nativeElement.value,
+          &rbrace;);
+        &rbrace;
+      </code>
+    </pre>
+  <p>
+    The <span class="code">@ViewChild()</span> receives the element selector, in
+    this case, we used the local reference
+    <span class="code">#serverContentInput</span> or could receive a component
+    name too (since this component is a child component). <br /><br />
+    We get the same result in a different way.
+  </p>
+  <img
+    src="../assets/images/cmp-databinding-6.png"
+    alt=""
+    class="img-responsive d-flex m-auto" /><br /><br />
+  <br /><br />
+  <h3><b>Projecting Content into Components with ng-content</b></h3>
+  <br />
+  <p>
+    Another way to pass data is the directive
+    <span class="code">&lt;ng-content&gt;&lt;/ng-content&gt;</span>. It serves
+    as a hook you can place in your component to mark the place for Angular
+    where it should add any content it finds between the opening and closing
+    tag.
+  </p>
+  <pre>
+    <h5>app.component.html</h5>
+    <code class="code no-border">
+      &lt;div class=&quot;row&quot;&gt;
+        &lt;div class=&quot;col-xs-12&quot;&gt;
+          &lt;app-server-element
+            *ngFor=&quot;let serverElement of serverElements&quot;
+            [srvElement]=&quot;serverElement&quot;
+          &gt;
+            &lt;p&gt;
+              &lt;strong *ngIf=&quot;serverElement.type === &apos;server&apos;&quot; style=&quot;color: red&quot;&gt;&lbrace; &lbrace;
+                serverElement.content
+              &rbrace;&rbrace;&lt;/strong&gt;
+              &lt;em *ngIf=&quot;serverElement.type === &apos;blueprint&apos;&quot;&gt;&lbrace; &lbrace;
+                serverElement.content
+              &rbrace;&rbrace;&lt;/em&gt;
+            &lt;/p&gt;
+          &lt;/app-server-element&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    </code>
+  </pre>
+  <pre>
+    <h5>server-element.component.html</h5>
+    <code class="code no-border">
+      &lt;div class=&quot;panel-body&quot;&gt;
+        &lt;ng-content&gt;&lt;/ng-content&gt;
+      &lt;/div&gt;
+    </code>
+  </pre>
+  <br /><br />
+  <h3><b>Understanding the Component Lifecycle</b></h3>
+  <br />
+  <p>
+    Angular supports a couple of lifecycle hooks. If a new component is created
+    in Angular, once a new component is instantiated, Angular goes through a
+    couple of different phases in this creation proccess. And it will actually
+    give us a chance to hook into these phases and execute some code. We can
+    hook into these phases by implementing some methods and Angular will call,
+    if they're present.<br /><br />
+    <b>1:</b> <span class="code">ngOnChanges</span> - Called after a bound input
+    property changes. It's used when a new component is created and always when
+    properties with <span class="code">@Input</span> decorator receives a new
+    values.<br /><br />
+    <b>2:</b> <span class="code">ngOnInit</span> - Called once the component is
+    initialized, it runs after the constructor<br /><br />
+    <b>3:</b><span class="code">ngDoCheck</span> - Called during every change
+    detection run, when it need to change something in the template and can be
+    trigger by a click, or a timer, or a observable<br /><br />
+    <b>4:</b><span class="code">ngAfterContentInit</span> - Called after content
+    (ng-content) has been projected into view <br /><br />
+    <b>5:</b><span class="code">ngAfterContentChecked</span> - Called every time
+    the projected content has been checked<br /><br />
+    <b>6:</b><span class="code">ngAfterViewInit</span> - Called after the
+    component's view (and child views) has been initialized<br /><br />
+    <b>7:</b><span class="code">ngAfterViewChecked</span> - Called every time
+    the view (and child views) have been checked<br /><br />
+    <b>8:</b><span class="code">ngOnDestroy</span> - Called once the component
+    is about to be destroyed (e.g. a *ngIf returning false and its removed from
+    the DOM)<br /><br />
+  </p>
+  <br /><br />
+  <h3><b>Seeing Lifecycle Hooks in Action</b></h3>
+  <br />
+  <p>
+    <span class="code">ngOnChanges</span> is the only hook that receives
+    arguments
+  </p>
+  <pre>
+    <h5>server-element.component.ts</h5>
+    <code class="code no-border">
+      import &lbrace;
+        Component,
+        Input,
+        OnChanges,
+        OnInit,
+        SimpleChanges,
+        ViewEncapsulation,
+      &rbrace; from &apos;@angular/core&apos;;
+      
+      @Component(&lbrace;
+        selector: &apos;app-server-element&apos;,
+        templateUrl: &apos;./server-element.component.html&apos;,
+        styleUrls: [&apos;./server-element.component.css&apos;],
+        //encapsulation: ViewEncapsulation.Emulated,
+      &rbrace;)
+      export class ServerElementComponent implements OnInit, OnChanges &lbrace;
+        @Input(&apos;srvElement&apos;) element: &lbrace; type: string; name: string; content: string &rbrace;;
+        // Type, name and content are not value, they&apos;re like types. Value belong to the &apos;right&apos; side of the equal sign &apos;=&apos;; Before that, we&apos;re defining types
+      
+        constructor() &lbrace;
+          console.log(&apos;constructor called&apos;);
+        &rbrace;
+      
+        ngOnChanges(changes: SimpleChanges) &lbrace;
+          console.log(&apos;ngOnChanges called&apos;);
+          console.log(changes);
+        &rbrace;
+      
+        ngOnInit() &lbrace;
+          console.log(&apos;ngOnInit called&apos;);
+        &rbrace;
+      &rbrace;
+    </code>
+  </pre>
+  <img
+    src="../assets/images/cmp-databinding-7.png"
+    alt=""
+    class="img-responsive d-flex m-auto" /><br /><br />
+  <p>
+    On order, constructor as called, ngOnChanges was called before ngOnInit and
+    the SimpleChanges as an object
+  </p>
 </div>

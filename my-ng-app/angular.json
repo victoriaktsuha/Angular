@@ -69,7 +69,11 @@
               "browserTarget": "my-ng-app:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "browserTarget": "my-ng-app:build",
+            "port": 4600
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
