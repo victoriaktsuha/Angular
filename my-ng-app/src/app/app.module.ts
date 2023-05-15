@@ -7,6 +7,9 @@ import {ServerComponent} from './server/server.component';
 import {ServersComponent} from './servers/servers.component';
 import {SuccessComponent} from './alerts/success/success.component';
 import {WarningComponent} from './alerts/warning/warning.component';
+import { GameControlComponent } from './game-control/game-control.component';
+import { OddComponent } from './odd/odd.component';
+import { EvenComponent } from './even/even.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +17,10 @@ import {WarningComponent} from './alerts/warning/warning.component';
     ServerComponent,
     ServersComponent,
     SuccessComponent,
-    WarningComponent
+    WarningComponent,
+    GameControlComponent,
+    OddComponent,
+    EvenComponent
   ],
   imports: [BrowserModule, FormsModule],
   providers: [],

@@ -20,6 +20,9 @@ export class AppComponent {
   showSecret = false;
   log = [];
 
+  oddNumbers: number[] = [];
+  evenNumbers: number[] = [];
+
   onReset(event: Event) {
     this.username = '';
   }
@@ -32,5 +35,13 @@ export class AppComponent {
 
     //Solution to index
     this.log.push(new Date());
+  }
+
+  onIntervalFired(firedNumber: number) {
+    if (firedNumber % 2 === 0) {
+      this.evenNumbers.push(firedNumber);
+    } else {
+      this.oddNumbers.push(firedNumber);
+    }
   }
 }

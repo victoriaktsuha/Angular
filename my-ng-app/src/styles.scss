@@ -2,6 +2,7 @@
 * {
   font-family: Arial, Helvetica, sans-serif;
   scroll-behavior: smooth;
+  white-space: break-spaces;
 }
 .code {
   color: chocolate;
@@ -16,4 +17,7 @@
 .obs {
   color: rgb(139, 139, 139);
   font-size: 12px;
+}
+img {
+  max-width: 100%;
 }

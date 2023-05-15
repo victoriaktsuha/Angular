@@ -2100,16 +2100,22 @@
   <h3><b>Seeing Lifecycle Hooks in Action</b></h3>
   <br />
   <p>
-    <span class="code">ngOnChanges</span> is the only hook that receives
-    arguments
+    <b>TIP:</b> <span class="code">ngOnChanges</span> is the only hook that
+    receives arguments
   </p>
   <pre>
     <h5>server-element.component.ts</h5>
     <code class="code no-border">
       import &lbrace;
+        AfterContentChecked,
+        AfterContentInit,
+        AfterViewChecked,
+        AfterViewInit,
         Component,
+        DoCheck,
         Input,
         OnChanges,
+        OnDestroy,
         OnInit,
         SimpleChanges,
         ViewEncapsulation,
@@ -2119,12 +2125,20 @@
         selector: &apos;app-server-element&apos;,
         templateUrl: &apos;./server-element.component.html&apos;,
         styleUrls: [&apos;./server-element.component.css&apos;],
-        //encapsulation: ViewEncapsulation.Emulated,
       &rbrace;)
-      export class ServerElementComponent implements OnInit, OnChanges &lbrace;
+      export class ServerElementComponent
+        implements
+          OnInit,
+          OnChanges,
+          DoCheck,
+          AfterContentInit,
+          AfterContentChecked,
+          AfterViewInit,
+          AfterViewChecked,
+          OnDestroy
+      &lbrace;
         @Input(&apos;srvElement&apos;) element: &lbrace; type: string; name: string; content: string &rbrace;;
-        // Type, name and content are not value, they&apos;re like types. Value belong to the &apos;right&apos; side of the equal sign &apos;=&apos;; Before that, we&apos;re defining types
-      
+        @Input() name: string;
         constructor() &lbrace;
           console.log(&apos;constructor called&apos;);
         &rbrace;
@@ -2137,15 +2151,209 @@
         ngOnInit() &lbrace;
           console.log(&apos;ngOnInit called&apos;);
         &rbrace;
-      &rbrace;
+      
+        ngDoCheck(): void &lbrace;
+          console.log(&apos;ngDoCheck called&apos;);
+        &rbrace;
+      
+        ngAfterContentInit(): void &lbrace;
+          console.log(&apos;ngAfterContentInit called&apos;);
+        &rbrace;
+      
+        ngAfterContentChecked(): void &lbrace;
+          console.log(&apos;ngAfterContentChecked called&apos;);
+        &rbrace;
+      
+        ngAfterViewInit(): void &lbrace;
+          console.log(&apos;ngAfterViewInit called&apos;);
+        &rbrace;
+      
+        ngAfterViewChecked(): void &lbrace;
+          console.log(&apos;ngAfterViewChecked called&apos;);
+        &rbrace;
+      
+        ngOnDestroy(): void &lbrace;
+          console.log(&apos;ngOnDestroy called&apos;);
+        &rbrace;
+      &rbrace;      
     </code>
   </pre>
   <img
     src="../assets/images/cmp-databinding-7.png"
     alt=""
-    class="img-responsive d-flex m-auto" /><br /><br />
+    class="img-responsive d-flex m-auto" />
   <p>
-    On order, constructor as called, ngOnChanges was called before ngOnInit and
-    the SimpleChanges as an object
+    Everything before <b>event 1</b> is called when Angular initialize, and in
+    order, the events on <b>event 1</b> occurs when that new server is created,
+    and events in the <b>event 2</b> occurs when the
+    <b>Destroy First Element</b> button is clicked, remaining just the latest
+    server created
+  </p>
+  <br /><br />
+  <h3><b>Lifecycle Hooks and Template Access</b></h3>
+  <br />
+  <p>
+    Depending on the time the hook runs, it can't access some properties, values
+    or elements in your DOM, like the case we applied on <i>server name</i> on
+    <span class="code">serve-element.component</span>:
+  </p>
+  <pre>
+    <h5>server-element.component.html</h5>
+    <p>We added <span class="code">#heading</span> local reference to the server name HTML line</p>
+    <code class="code no-border">
+      &lt;div class=&quot;panel panel-default&quot;&gt;
+        &lt;div class=&quot;panel-heading&quot; #heading&gt;&lbrace; &lbrace; name &rbrace; &rbrace;&lt;/div&gt;
+        &lt;div class=&quot;panel-body&quot;&gt;
+          &lt;ng-content&gt;&lt;/ng-content&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    </code>
+  </pre>
+  <pre>
+    <h5>server-element.component.ts</h5>
+    <p>And here we tested with <span class="code">ngOnInit()</span> and <span class="code">ngAfterViewInit()</span> the exactly point where we can have access to template elements:</p>
+    <code class="code no-border">
+      ngOnInit() &lbrace;
+        console.log('ngOnInit called');
+        console.log('Text Content:' + this.header.nativeElement.textContent);
+      &rbrace;
+
+      ngAfterViewInit(): void &lbrace;
+        console.log('ngAfterViewInit called');
+        console.log('Text Content:' + this.header.nativeElement.textContent);
+      &rbrace;
+    </code>
+  </pre>
+  <img
+    src="../assets/images/cmp-databinding-8.png"
+    alt=""
+    class="img-responsive d-flex m-auto" /><br /><br />
+  <br /><br />
+  <h3><b>Getting Access to ng-content with @ContentChild</b></h3>
+  <br />
+  <p>
+    We used <span class="code">@ViewChild()</span> with
+    <b>local reference</b> on
+    <span class="code">server-element.component.ts</span> to access the template
+    (server name) of this same component on
+    <span class="code">server-element.component.html</span>. But now we added a
+    <b>local reference</b> on a tag that is in the
+    <span class="code">app.component.html</span>, between the
+    <span class="code">server-element.component</span> selector
+    <span class="code"
+      >&lt;app-server-element&gt;&lt;/app-server-element&gt;</span
+    >:
+  </p>
+  <pre>
+    <code class="code no-border">
+      &lt;app-server-element
+        *ngFor=&quot;let serverElement of serverElements&quot;
+        [srvElement]=&quot;serverElement&quot;
+        [name]=&quot;serverElement.name&quot;
+      &gt;
+        &lt;p #contentParagraph&gt;
+          &lt;strong *ngIf=&quot;serverElement.type === &apos;server&apos;&quot; style=&quot;color: red&quot;&gt;&lbrace; &lbrace;
+            serverElement.content
+          &rbrace; &rbrace;&lt;/strong&gt;
+          &lt;em *ngIf=&quot;serverElement.type === &apos;blueprint&apos;&quot;&gt;&lbrace; &lbrace;
+            serverElement.content
+          &rbrace; &rbrace;&lt;/em&gt;
+        &lt;/p&gt;
+      &lt;/app-server-element&gt;
+    </code>
+  </pre>
+  <p>
+    So the intent here is access a
+    <span class="code">server-element.component</span> content, the server
+    paragraph this time, since it is between its selectors. For that we're going
+    to use <span class="code">@ContentChild()</span> in the
+    <span class="code">server-element.component.ts</span>, responsible for the
+    content at the end.
+  </p>
+  <pre>
+    <code class="code no-border">
+      @ContentChild(&apos;contentParagraph&apos;, &lbrace; static: true &rbrace;) paragraph: ElementRef;
+  </code>
+  <p class="obs"><span class="code">@ContentChild()</span> also needs to be imported from @angular/core</p>
+</pre>
+  <p>
+    Here we can see when <span class="code">@ContentChild()</span> make
+    available the <i>server content</i> content (after
+    <span class="code">ngAfterContentInit</span> is called)
+  </p>
+  <img
+    src="../assets/images/cmp-databinding-9.png"
+    alt=""
+    class="img-responsive d-flex m-auto" /><br /><br />
+  <br /><br />
+  <h3>
+    <b
+      >Assignment 4: Practicing Property & Event Binding and View
+      Encapsulation</b
+    >
+  </h3>
+  <br />
+  <p><b>1.</b>Create three new components: GameControl, Odd and Even</p>
+  <p>
+    <b>2.</b>The GameControl Component should have buttons to start and stope
+    the game
+  </p>
+  <p>
+    <b>3.</b>When starting the game, an event (holding a incrementing number)
+    should get emitted each second (ref = setInterval())
+  </p>
+  <p><b>4.</b>The event should be listenable from outside the component</p>
+  <p>
+    <b>5.</b>When stopping the game, no more events should get emitted
+    (clearInteval())
+  </p>
+  <p>
+    <b>6.</b>A new Odd component should get created for every odd number
+    emitted, the same should happen for the Even Component (on even numbers)
+  </p>
+  <p>
+    <b>7.</b>Simply output Odd - NUMBER or Even - NUMBER in the two components
+  </p>
+  <p>
+    <b>8.</b>Style the element (e.g. paragraph) holding your output text
+    differently in both components
+  </p>
+  <div class="card">
+    <div class="card-header"><b>Result View</b></div>
+    <div class="card-body">
+      <app-game-control
+        (intervalFired)="onIntervalFired($event)"></app-game-control>
+      <app-odd
+        *ngFor="let oddNumber of oddNumbers"
+        [number]="oddNumber"></app-odd>
+      <app-even
+        *ngFor="let evenNumber of evenNumbers"
+        [number]="evenNumber"></app-even>
+    </div>
+  </div>
+  <br />
+  <p>
+    <i>
+      "You can pass values <b>from a parent to a child component</b> using
+      <b>[property binding]</b> in the parent and
+      <span class="code">@Input()</span> in the child <br /><br />
+
+      You can pass values <b>from a child to a parent component</b> using
+      <b>(event binding)</b> in the parent and
+      <span class="code">@Output()</span> in the child. <br /><br />
+
+      This syntax is rather intuitive: <span class="code">@Input()</span> marks
+      <b>inputs</b> into the child (coming from its parent),
+      <span class="code">@Output()</span> marks <b>outputs</b> from the child
+      (to its parent). <br /><br />
+
+      (A <b>direct</b> parent/child relationship of two components is
+      established by the fact that the selector of the child component is placed
+      somewhere in the template of the parent component.)" </i
+    ><br />Jost - Technical Assistent from course <br />
+    <br />
+    <img
+      src="../assets/images/assignment-4.png"
+      class="img-repsonsive d-flex m-auto" />
   </p>
 </div>
