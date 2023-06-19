@@ -35,6 +35,7 @@ export class ServerElementComponent
 {
   @Input('srvElement') element: { type: string; name: string; content: string };
   // Type, name and content are not value, they're like types. Value belong to the 'right' side of the equal sign '='; Before that, we're defining types
+  // 'srvElement' becomes a property that is binded in the HTML file => [srvElement]="serverElement"
   @Input() name: string;
   @ViewChild('heading', { static: true }) header: ElementRef;
   @ContentChild('contentParagraph', { static: true }) paragraph: ElementRef;
