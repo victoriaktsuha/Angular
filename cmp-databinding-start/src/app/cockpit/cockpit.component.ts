@@ -16,13 +16,14 @@ export class CockpitComponent {
     serverName: string;
     serverContent: string;
   }>();
+  // Information being sent from child => to parent - 'srvCreated' added on 'app' parent comp.
   @Output('bpCreated') blueprintCreated = new EventEmitter<{
     serverName: string;
     serverContent: string;
   }>();
   //newServerName = '';
   //newServerContent = '';
-  @ViewChild('serverContentInput', { static: true })
+  @ViewChild('serverContent Input', { static: true })
   serverContentInput: ElementRef;
 
   onAddServer(nameInput: HTMLInputElement) {
