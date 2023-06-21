@@ -2366,7 +2366,9 @@
     they're clicked in the menu, having <i>Recipes</i> as default page
   </p>
   <br />
-  <img src="../assets/images/recipie-app-initial-menu.png" />
+  <img
+    class="img-responsive d-flex m-auto"
+    src="../assets/images/recipie-app-initial-menu.png" />
   <br />
   <p>
     <b>1.</b> In the <span class="code">header.html</span>, we bind a
@@ -2570,7 +2572,9 @@
       ];
     </code>
   </pre>
-  <img src="../assets/images/recipe-item.png" />
+  <img
+    class="img-responsive d-flex m-auto"
+    src="../assets/images/recipe-item.png" />
   <br /><br />
   <h3>
     <b>Passing Data with Event and Property Binding (Combined)</b>
@@ -2579,9 +2583,174 @@
   <p>
     Now, we want to <mark>open</mark> the <b>recipe detail</b> on the right side
     <mark>when</mark> the <b>recipe item</b> is <mark>clicked</mark> in the
-    <b>recipe list</b>, on left side.
+    <b>recipe list</b>, on left side. (Remembering: recipe list and recipe
+    detail selectors are inside the recipe component - it'll impact in the event
+    listening steps)
   </p>
   <p>
-    <b>1.</b>
+    <b>1.</b> Since que clickable item is the
+    <span class="code">recipe-item.html</span>, we're going to bind a
+    <span class="code">(click)</span> event to know when it's triggered
   </p>
+  <pre>
+    <code class="code no-border">
+      &lt;a href=&quot;#&quot; class=&quot;list-group-item clearfix&quot; (click)=&quot;onSelected()&quot;&gt;
+        &lt;div class=&quot;pull-left&quot;&gt;
+          &lt;h4 class=&quot;list-group-item-heading&quot;&gt;&lbrace; &lbrace; recipe.name &rbrace; &rbrace;&lt;/h4&gt;
+          &lt;p class=&quot;list-group-item-text&quot;&gt;&lbrace; &lbrace; recipe.description &rbrace;&rbrace;&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;span class=&quot;pull-right&quot;&gt;
+          &lt;img
+            [src]=&quot;recipe.imagePath&quot;
+            alt=&quot;&lbrace; &lbrace; recipe.name &rbrace; &rbrace;&quot;
+            class=&quot;img-responsive&quot;
+            style=&quot;max-height: 50px&quot;
+          /&gt;
+        &lt;/span&gt;
+      &lt;/a&gt;
+    </code>
+  </pre>
+  <p>
+    On <span class="code">(click)=&quot;onSelected()&quot;</span>, we don't need
+    to pass any arguments, because just the <i>'click'</i> need to be
+    <i>'heard'</i>
+  </p>
+  <p>
+    <b>2.</b> In the <span class="code">recipe-item.component</span>, we add the
+    <span class="code">onSelected()</span> function and a event emitter
+    <span class="code">recipeSelected</span> with
+    <span class="code">@Output</span>, so we can know when the recipe item is
+    selected.
+  </p>
+  <pre>
+    <code class="code no-border">
+      @Output() recipeSelected = new EventEmitter&lt;void&gt;();
+        <p class="obs"><b>&lt;void&gt;</b> means that this event won&apos;t pass any information</p>
+      
+        onSelected() &lbrace;
+          this.recipeSelected.emit();
+        &rbrace;
+          <p class="obs"> we don&apos;t need to pass any arguments because is the &apos;recipe-list&apos; that will be actually hearing this event emission</p>
+    </code>
+  </pre>
+  <p>
+    Once again, in the <span class="code">recipeSelected</span> event emitter,
+    we don't need to pass any arguments because it's just to make the
+    <i>(click)</i> event to be heard, that's why we used
+    <span class="code">&lt;void&gt;()</span>; As it is with
+    <span class="code">onSelected()</span>
+  </p>
+  <p>
+    <b>3.</b> In the <span class="code">recipe-list.html</span>, we bind to the
+    <span class="code">&lt;app-recipe-item&gt;&lt;/app-recipe-item&gt;</span>
+    selector, the event <span class="code">recipeSelected</span>, created in the
+    <span class="code">recipe-item.component</span>, so the click inside the
+    <span class="code">recipe-item.component</span> can be heard in the
+    <span class="code">recipe-list</span>.
+  </p>
+  <pre>
+    <code class="code no-border">
+      &lt;app-recipe-item
+      *ngFor=&quot;let recipeEl of recipes&quot;
+      [recipe]=&quot;recipeEl&quot;
+      (recipeSelected)=&quot;onRecipeSelected(recipeEl)&quot;
+      &gt;&lt;/app-recipe-item&gt;
+    </code>
+  </pre>
+  <p>
+    Once <span class="code">(recipeSelected)</span> happens, the
+    <span class="code">onRecipeSelected(recipeEl)</span> is triggered, passing
+    the respective recipe element selected as argument <i>(recipeEl)</i>
+  </p>
+  <p>
+    <b>Important point:</b> The
+    <span class="code">@Output / EventEmitter</span> works in levels, so a
+    parent can't <i>hear</i> an event from a child of a child, we need to
+    <i>construct</i> this path. So we need to make the event in the inner child,
+    <b>level (3)</b>, in this case, the
+    <span class="code">recipe-item</span> being heard by the outter child,
+    <b>level (2)</b>, in this case, the <span class="code">recipe-list</span>,
+    and finally reaching the parent, <b>level (1)</b>, in this case,
+    <span class="code">recipe.component</span>. The
+    <span class="code">recipe-detail</span> component works side-to-side, as
+    'sibling', of the <span class="code">recipe-list</span>
+  </p>
+  <p>
+    In the <span class="code">recipe-list.component</span>, we need to emit a
+    new event, so it can be heard by the parent component
+    <span class="code">recipe</span>
+  </p>
+  <pre>
+    <code class="code no-border">
+      @Output() recipeWasSelected = new EventEmitter&lt;Recipe&gt;();
+      <span class="obs">Here we're using the model <b>Recipe</b> as a type</span>
+      onRecipeSelected(recipe: Recipe) &lbrace;
+        this.recipeWasSelected.emit(recipe);
+      &rbrace;
+      <span class="obs">Again, we're using the model <b>Recipe</b> as a type and emitting the current recipe element in the loop</span>
+    </code>
+  </pre>
+  <p>
+    <b>4.</b> In the <span class="code">recipe.html</span>, we can bind the
+    <span class="code">(recipeWasSelected)</span> event to the
+    <span class="code">&lt;app-recipe-list&gt;&lt;/app-recipe-list&gt;</span>
+    selector, and assing to it a property that will stored this recipe selected,
+    using the '=' attribute sign to receive the data <i>$event</i>
+  </p>
+  <pre>
+    <code class="code no-border">
+      selectedRecipe: Recipe;
+      <span class="obs">the property need to receive <span class="code">Recipe</span> model as type</span>
+    </code>
+  </pre>
+  <p>
+    The details must be displayed just when the <b>recipe is selected</b>, so
+    still in the <span class="code">recipe.html</span>, we're going to configure
+    the
+    <span class="code"
+      >&lt;app-recipe-detail&gt;&lt;/app-recipe-detail&gt;</span
+    >
+    to work this way with <span class="code">*ngIf</span>:
+  </p>
+  <pre>
+    <code class="code no-border">
+      &lt;app-recipe-detail
+      *ngIf=&quot;selectedRecipe; else infoText&quot;
+      [recipe]=&quot;selectedRecipe&quot;
+      &gt;&lt;/app-recipe-detail&gt;
+      &lt;ng-template #infoText&gt;
+        &lt;p&gt;Please select a Recipe!&lt;/p&gt;
+      &lt;/ng-template&gt;
+    </code>
+  </pre>
+  <p>
+    <span class="code">*ngIf=&quot;selectedRecipe; else infoText&quot;</span>
+    display the recipe details just if its the type of
+    <span class="code">Recipe</span>, as we defined in the
+    <span class="code">recipe.component</span>; Otherwise (else), it will
+    display the dummy text inside the
+    <span class="code">&lt;ng-template&gt;&lt;/ng-template&gt;</span>
+  </p>
+  <p>
+    <b>5.</b>Finally, to be able to see the same data of
+    <span class="code">recipe-item</span> displayed in the
+    <span class="code">recipe-detail</span>, we binded a property
+    <span class="code">[recipe]=&quot;selectedRecipe&quot;</span> to its
+    selector in the <span class="code">recipe.html</span>. This property, as we
+    already seen, was defined with <span class="code">@Input</span> in the
+    <span class="code">recipe-detail.component</span> and receives the
+    <span class="code">selectedRecipe</span>, which represents the current
+    recipe element:
+  </p>
+  <pre>
+    <code class="code no-border">
+      @Input() recipe: Recipe;
+    </code>
+  </pre>
+  <img
+    class="img-responsive d-flex m-auto"
+    src="../assets/images/recipe-detail-default.png" />
+  <img
+    class="img-responsive d-flex m-auto"
+    src="../assets/images/recipe-detail-data.png" />
 </div>
