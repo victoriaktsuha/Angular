@@ -6,21 +6,17 @@
 <hr />
 <div class="row">
   <div class="col-xs-12">
-    <a href="#" class="list-group-item clearfix" *ngFor="let recipe of recipes">
-      <div class="pull-left">
-        <h4 class="list-group-item-heading">{{ recipe.name }}</h4>
-        <p class="list-group-item-text">{{ recipe.description }}</p>
-      </div>
-      <span class="pull-right">
-        <img
-          [src]="recipe.imagePath"
-          alt="{{ recipe.name }}"
-          class="img-responsive"
-          style="max-height: 50px"
-        />
-      </span>
-      <!-- we could use also src="{{ recipe.imagePath }}"  -->
-    </a>
-    <app-recipe-item></app-recipe-item>
+    <app-recipe-item
+      *ngFor="let recipeEl of recipes"
+      [recipe]="recipeEl"
+      (recipeSelected)="onRecipeSelected(recipeEl)"
+    ></app-recipe-item>
+    <!-- [recipe] here refers to the '@Input() recipe: Recipe;' in the 'recipe-item.component', that refers to the 'recipe.model' -->
+    <!-- *ngFor="let recipeEl of recipes" will display as many 'recipes' we'll have in the 'recipe-list.component' => recipes: Recipe[] = [
+    new Recipe(
+      'A Test Recipe',
+      'This is simply a test',
+      'https://www.supergoldenbakes.com/wordpress/wp-content/uploads/2019/10/Hungarian_Goulash_s.jpg'
+    ),]; keeping the same format of 'recipe.model'-->
   </div>
 </div>

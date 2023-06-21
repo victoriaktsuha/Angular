@@ -2356,4 +2356,232 @@
       src="../assets/images/assignment-4.png"
       class="img-repsonsive d-flex m-auto" />
   </p>
+  <br /><br />
+  <h3>
+    <b>Adding Navigation with Event Biding (@Output) and ngIf </b>
+  </h3>
+  <br />
+  <p>
+    In the <b><i>Recipie App</i></b> project, we want to display pages only when
+    they're clicked in the menu, having <i>Recipes</i> as default page
+  </p>
+  <br />
+  <img src="../assets/images/recipie-app-initial-menu.png" />
+  <br />
+  <p>
+    <b>1.</b> In the <span class="code">header.html</span>, we bind a
+    <span class="code">(click)</span> event on the links returning an argument
+    <br />
+  </p>
+  <pre>
+    <code class="code no-border">
+      &lt;li class=&quot;nav-item&quot;&gt;
+        &lt;a
+          class=&quot;nav-link active&quot;
+          aria-current=&quot;page&quot;
+          href=&quot;#&quot;
+          (click)=&quot;onSelect(&apos;recipe&apos;)&quot;
+          &gt;Recipes&lt;/a
+        &gt;
+      &lt;/li&gt;
+      &lt;li class=&quot;nav-item&quot;&gt;
+        &lt;a class=&quot;nav-link&quot; href=&quot;#&quot; (click)=&quot;onSelect(&apos;shopping-list&apos;)&quot;
+          &gt;Shopping List&lt;/a
+        &gt;
+      &lt;/li&gt;
+    </code>
+  </pre>
+  <p>
+    <b>2.</b> In the <span class="code">header.component</span>, we create an
+    <span class="code">@Output</span> to emit the event that will receive a
+    string <span class="code">&lt;string&gt;()</span>, and the
+    <b><i>onSelect( )</i></b> click function, that once triggered, pass the
+    argument received in the <span class="code">header.html</span> as a string
+    <span class="code">(feature)</span> and emit this same string with the
+    <span class="code">@Output EventEmitter</span>
+    <br />
+  </p>
+  <pre>
+    <code class="code no-border">
+      @Output() featureSelected = new EventEmitter&lt;string&gt;();
+
+      onSelect(feature: string) &lbrace;
+        this.featureSelected.emit(feature);
+      &rbrace;
+    </code>
+  </pre>
+  <p>
+    <b>3.</b> In the <span class="code">app.html</span>, in the
+    <span class="code">&lt;app-header&gt;&lt;/app-header&gt;</span> selector, we
+    bind the <span class="code">(featureSelected)</span> event that we created
+    with the <span class="code">@Output</span> in the
+    <span class="code">header.component</span>, with a new function that receive
+    the data being emitted in the moment we click in the link
+  </p>
+  <pre>
+    <code class="code no-border">
+      &lt;app-header (featureSelected)=&quot;onNavigate($event)&quot;&gt;&lt;/app-header&gt;
+    </code>
+  </pre>
+  <p class="obs">
+    If we click in <b>Recipe</b> link, <span class="code">($event)</span> will
+    receive <span class="code">'recipe'</span>, as defined in the
+    <span class="code">header.html</span>. The same with <b>Shopping List</b>
+  </p>
+  <p>
+    <b>4.</b> In the <span class="code">app.component</span>, we defined the
+    variable <span class="code">loadedFeatured</span> as
+    <span class="code">'recipe'</span> to define this page as default. Then we
+    create the <b><i>onNavigate( )</i></b> function that receives the same
+    string <span class="code">(feature)</span>
+    <i
+      >(that will be 'recipe' or 'shopping-list', depending on the user
+      click)</i
+    >
+    and assign it to the <span class="code">loadedFeature</span> variable as a
+    new value
+  </p>
+  <pre>
+    <code class="code no-border">
+      loadedFeature = &apos;recipe&apos;;
+      onNavigate(feature: string) &lbrace;
+        this.loadedFeature = feature;
+      &rbrace;
+    </code>
+  </pre>
+  <p>
+    <b>5.</b> Back to the <span class="code">app.hmtl</span>, we're going to use
+    the <span class="code">*ngIf</span> to toggle between the pages, binding it
+    into the
+    <span class="code">&lt;app-recipes&gt;&lt;/app-recipes&gt;</span> and
+    <span class="code"
+      >&lt;app-shopping-list&gt;&lt;/app-shopping-list&gt;</span
+    >
+    selectors
+  </p>
+  <pre>
+    <code class="code no-border">
+      &lt;app-header (featureSelected)=&quot;onNavigate($event)&quot;&gt;&lt;/app-header&gt;
+      &lt;div class=&quot;container&quot;&gt;
+        &lt;div class=&quot;row&quot;&gt;
+          &lt;div class=&quot;col-md-12&quot;&gt;
+            &lt;app-recipes *ngIf=&quot;loadedFeature === &apos;recipe&apos;&quot;&gt;&lt;/app-recipes&gt;
+            &lt;app-shopping-list *ngIf=&quot;loadedFeature !== &apos;recipe&apos;&quot;&gt;&lt;/app-shopping-list&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    </code>
+  </pre>
+  <p>
+    <span class="code"
+      >*ngIf=&quot;loadedFeature === &apos;recipe&apos;&quot;</span
+    >
+    allows the
+    <span class="code">&lt;app-recipes&gt;&lt;/app-recipes&gt;</span> being
+    displayed just when the argument received in the
+    <span class="code">(featureSelected)=&quot;onNavigate($event)&quot;</span>
+    is equal to <span class="code">'recipe'</span>; And the same for the
+    <span class="code">'shopping-list'</span>
+  </p>
+  <br /><br />
+  <h3>
+    <b>Passing Recipe Data with Property Binding</b>
+  </h3>
+  <br />
+  <p>
+    To pass data dynamically to another component, let's use the
+    <span class="code">@Input</span> in the <i>'child'</i> component
+    <span class="code">recipe-item</span> and property binding in the
+    <span class="code">&lt;app-recipe-item&gt;&lt;/app-recipe-item&gt;</span>
+    selector inside <i>'parent'</i> component
+    <span class="code">recipe-list</span>
+  </p>
+  <p>
+    <b>1.</b> We create the piece of code responsible for the recipe-item layout
+    in the <span class="code">recipe-item.html</span>
+  </p>
+  <pre>
+    <code class="code no-border">
+      &lt;a href=&quot;#&quot; class=&quot;list-group-item clearfix&quot;&gt;
+        &lt;div class=&quot;pull-left&quot;&gt;
+          &lt;h4 class=&quot;list-group-item-heading&quot;&gt;&lbrace; &lbrace; recipe.name &rbrace; &rbrace;&lt;/h4&gt;
+          &lt;p class=&quot;list-group-item-text&quot;&gt;&lbrace; &lbrace; recipe.description &rbrace;&rbrace;&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;span class=&quot;pull-right&quot;&gt;
+          &lt;img
+            [src]=&quot;recipe.imagePath&quot;
+            alt=&quot;&lbrace; &lbrace; recipe.name &rbrace; &rbrace;&quot;
+            class=&quot;img-responsive&quot;
+            style=&quot;max-height: 50px&quot;
+          /&gt;
+        &lt;/span&gt;
+      &lt;/a&gt;
+    </code>
+  </pre>
+  <p>
+    In the <span class="code">recipe-item.component</span> we add the
+    <span class="code">@Input</span> responsible for <b><i>allow</i></b> the
+    <span class="code">recipe</span> property being accessible from outside,
+    specifically, by the 'parent' component
+    <span class="code">recipe-list</span>
+  </p>
+  <pre>
+    <code class="code no-border">
+      @Input() recipe: Recipe;
+    </code>
+  </pre>
+  <p>
+    <b>'Recipe'</b> here is the model with the properties that we're accessing
+    in the string interpolation in the
+    <span class="code">recipe-item.html</span>: &lbrace; &lbrace; recipe.name
+    &rbrace; &rbrace; and &lbrace; &lbrace; recipe.description &rbrace; &rbrace;
+    and can be fulfilled in the
+    <span class="code">recipe-list.component</span>
+    <i>(thanks to the <span class="code">@Input</span>)</i>
+  </p>
+  <br />
+  <p>
+    <b>2.</b> In the <span class="code">recipe-list.html</span>, we add the
+    <span class="code">ngFor</span> at the
+    <span class="code">&lt;app-recipe-item&gt;&lt;/app-recipe-item&gt;</span>
+    selector to loop over and exhibit all recipes in the array defined in
+    <span class="code">recipe-list.component</span>; Also, we bind the property
+    <span class="code">[recipe]</span> defined in the
+    <span class="code">recipe-item.component</span>, assign to it, one by one,
+    all the elements of the recipes array: <span class="code">"recipeEl"</span>
+  </p>
+  <br />
+  <pre>
+    <b>*ngFor</b>
+    <code class="code no-border">
+      &lt;app-recipe-item
+      *ngFor=&quot;let recipeEl of recipes&quot;
+      [recipe]=&quot;recipeEl&quot;
+      &gt;&lt;/app-recipe-item&gt;
+    </code>
+    <b>Recipes array </b>
+    <code class="code no-border">
+      recipes: Recipe[] = [
+        new Recipe(
+          &apos;A Test Recipe&apos;,
+          &apos;This is simply a test&apos;,
+          &apos;https://www.supergoldenbakes.com/wordpress/wp-content/uploads/2019/10/Hungarian_Goulash_s.jpg&apos;
+        ), new Recipe()...
+      ];
+    </code>
+  </pre>
+  <img src="../assets/images/recipe-item.png" />
+  <br /><br />
+  <h3>
+    <b>Passing Data with Event and Property Binding (Combined)</b>
+  </h3>
+  <br />
+  <p>
+    Now, we want to <mark>open</mark> the <b>recipe detail</b> on the right side
+    <mark>when</mark> the <b>recipe item</b> is <mark>clicked</mark> in the
+    <b>recipe list</b>, on left side.
+  </p>
+  <p>
+    <b>1.</b>
+  </p>
 </div>
