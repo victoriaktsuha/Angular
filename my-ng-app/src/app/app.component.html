@@ -2753,4 +2753,135 @@
   <img
     class="img-responsive d-flex m-auto"
     src="../assets/images/recipe-detail-data.png" />
+  <br /><br />
+  <h3>
+    <b>Allowing the User to Add Ingredients to the Shopping List</b>
+  </h3>
+  <br />
+  <p>
+    In the 'Shopping List' page, we already have a CRUD (form) for the recipes
+    ingredients and we want to let it more <mark>functional</mark>, configuring
+    the code to be able to <mark>add</mark>, <mark>delete</mark> and
+    <mark>clear</mark> the form. For that, we're going to use
+    <span class="code">@ViewChild</span> and
+    <span class="code">#local_reference</span><br />
+    <span class="obs"
+      >(We're going to config the <b>Add</b> function, for now)</span
+    >
+  </p>
+  <img
+    src="../assets/images/recipie-app-toggle-menu.png"
+    class="img-responsive d-flex m-auto" />
+  <hr />
+  <br />
+  <p>
+    <b>1.</b> In <span class="code">shopping-edit.html</span>, we add a
+    <span class="code">#nameIpunt</span> local reference in the
+    <span class="code">&lt;input id=&quot;name&quot;&gt;</span> and
+    <span class="code">#amountInput</span> in the
+    <span class="code">&lt;input id=&quot;amount&quot;&gt;</span>
+  </p>
+  <pre>
+    <code class="code no-border">
+      &lt;div class=&quot;col-sm-5 form-group&quot;&gt;
+        &lt;label for=&quot;name&quot;&gt;Name&lt;/label&gt;
+        &lt;input type=&quot;text&quot; id=&quot;name&quot; class=&quot;form-control&quot; #nameInput /&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;col-sm-2 form-group&quot;&gt;
+        &lt;label for=&quot;amount&quot;&gt;Amount&lt;/label&gt;
+        &lt;input type=&quot;text&quot; id=&quot;Amount&quot; class=&quot;form-control&quot; #amountInput /&gt;
+      &lt;/div&gt;
+    </code>
+  </pre>
+  <p>
+    In the <b>Add</b> button, we're going to bind a <b>click</b> event to use as
+    event listener later
+  </p>
+  <pre>
+    <code class="code no-border">
+      &lt;button class=&quot;btn btn-success&quot; type=&quot;submit&quot; (click)=&quot;onAddItem()&quot;&gt;
+        Add
+      &lt;/button&gt;
+    </code>
+  </pre>
+  <p>
+    <b>2.</b> In the <span class="code">shopping-edit.component</span>, we're
+    going to use <span class="code">@ViewChild</span> approach to get the
+    <span class="code">#local_references</span> values, indicating inside the
+    <b>( )</b>, the <span class="code">#local_references</span> names
+  </p>
+  <pre>
+    <code class="code no-border">
+      @ViewChild(&apos;nameInput&apos;, &lbrace; static: false &rbrace;) nameInputRef: ElementRef;
+      @ViewChild(&apos;amountInput&apos;, &lbrace; static: false &rbrace;) amountInputRef: ElementRef;
+    </code>
+  </pre>
+  <p>
+    With these two inputs added, now we can emit a new event with
+    <span class="code">@Output</span> where we pass these data to the
+    <b>parent</b> component <span class="code">shopping-list</span> as the
+    object model <span class="code">Ingredient</span>
+  </p>
+  <pre>
+    <code class="code no-border">
+      @ViewChild(&apos;nameInput&apos;, &lbrace; static: false &rbrace;) nameInputRef: ElementRef;
+      @ViewChild(&apos;amountInput&apos;, &lbrace; static: false &rbrace;) amountInputRef: ElementRef;
+      @Output() ingredientAdded = new EventEmitter&lt;Ingredient&gt;();
+    </code>
+  </pre>
+  <p>
+    To finish this component configuration, we're going to create the event
+    listener <span class="code">onAddItem()</span>
+  </p>
+  <pre>
+    <code class="code no-border">
+      onAddItem() &lbrace;
+        const ingredientName = this.nameInputRef.nativeElement.value;
+        const ingredientAmount = this.amountInputRef.nativeElement.value;
+        const newIngredient = new Ingredient(ingredientName, ingredientAmount);
+        this.ingredientAdded.emit(newIngredient);
+      &rbrace;
+    </code>
+  </pre>
+  <p>
+    Once this function is triggered, we store the inputs values into the
+    <b><i>ingredientName</i></b> and <b><i>ingredientAmount</i></b
+    >, using the <span class="code">@ViewChild</span> properties
+    <b><i>nameInputRef</i></b> and <b><i>amountInputRef</i></b> (which those
+    were already referencing to the inputs
+    <span class="code">#local_references</span>), and create another variable
+    <b><i>ingredientsAdded</i></b
+    >to store the sum of these ingredients as a new object (using
+    <i>'Ingredient' model</i> type)
+  </p>
+  <p>
+    <b>Important point:</b><br />In the line
+    <span class="code"
+      >const newIngredient = new Ingredient(ingredientName,
+      ingredientAmount);</span
+    >, the order is a criteria, and it should be 'name' first and 'amount'
+    after, otherwise, they will be inverted
+  </p>
+  <p>
+    <b>3.</b> In the <span class="code">shopping-list.html</span>, which is the
+    parent component of <span class="code">shopping-edit</span>, we can now
+    <b><i>'listen'</i></b> to the
+    <span class="code">(ingredientAdded)</span> event (that we created back in
+    the <span class="code">shopping-edit</span>) and get data from the
+    <span class="code">shopping-edit</span> event
+  </p>
+  <pre>
+    <span><b>shopping-list.html</b></span>
+    <code class="code no-border">
+      &lt;app-shopping-edit
+      (ingredientAdded)=&quot;onIngredientAdded($event)&quot;
+    &gt;&lt;/app-shopping-edit&gt;
+    </code>
+    <span><b>shopping-list.ts</b></span>
+    <code class="code no-border">
+      onIngredientAdded(ingredient: Ingredient) &lbrace;
+        this.ingredients.push(ingredient);
+      &rbrace;
+    </code>
+  </pre>
 </div>
