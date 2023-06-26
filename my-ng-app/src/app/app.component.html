@@ -86,7 +86,7 @@
         <b><a href="#7">7. Directives Deep Dive</a></b>
       </li>
       <li>
-        <b><a>8. Course Project - Directives</a></b>
+        <b><a href="#8">8. Course Project - Directives</a></b>
       </li>
       <li>
         <b><a>9. Using Services & Dependency Injection</a></b>
@@ -3500,7 +3500,170 @@
   </h3>
   <br />
   <p>
-    Since we understood what the * is, we can write our own structural directive
+    Since we understood what the * is, we can write our own structural
+    directive. We're going to create a new directive
+    <span class="code">unless</span> in the
+    <span class="code">app</span> folder. This directive will attach something
+    only if the condition is false, and <span class="code">*ngIf</span> will be
+    attached if the condition is true.
   </p>
+  <pre>
+    <p><b>unless.directive</b></p>
+    <code class="code no-border">
+      import &lbrace; Directive, Input, TemplateRef, ViewContainerRef &rbrace; from '@angular/core';
+      @Directive(&lbrace;
+        selector: '[appUnless]',
+      &rbrace;)
+      export class UnlessDirective &lbrace;
+        @Input() set appUnless(condition: boolean) &lbrace;
+          if (!condition) &lbrace;
+            this.vcRef.createEmbeddedView(this.templateRef);
+          &rbrace; else &lbrace;
+            this.vcRef.clear();
+          &rbrace;
+        &rbrace;
+        constructor(
+          private templateRef: TemplateRef&lt;any&gt;,
+          private vcRef: ViewContainerRef
+        ) &lbrace;&rbrace;
+      &rbrace;
+    </code>
+    <p class="obs"><b>Notes:</b><br>
+    - 'set' tranform the 'unless' property into a set of a property, which is a method in this case and will be triggered whenever the property changes outside this directive<br>
+    - this directive will be set on a ng-template component, because that's tranform by Angular if we use a *. We need to get access to this template and also to get to the place in the document where we want to render it, and both can be injected ('create' by Angular as soon as it is build): TemplateRef will be refering to the template ('what'), like the elementRef, and the ViewContainerRef will be refering to the place where it should be rendered ('where'); Both need to be imported
+  </p>
+  <p><b>app.component</b></p>
+  <code class="code no-border">
+    &lt;div *ngIf=&quot;onlyOdd&quot;&gt;
+      &lt;li
+        class=&quot;list-group-item&quot;
+        *ngFor=&quot;let odd of oddNumbers&quot;
+        [ngClass]=&quot;&lbrace; odd: odd % 2 !== 0 &rbrace;&quot;
+        [ngStyle]=&quot;&lbrace;
+          backgroundColor: odd % 2 !== 0 ? &apos;yellow&apos; : &apos;lightgray&apos;
+        &rbrace;&quot;
+      &gt;
+        &lbrace; &lbrace; odd &rbrace; &rbrace;
+      &lt;/li&gt;
+    &lt;/div&gt;
+    
+    &lt;div *appUnless=&quot;onlyOdd&quot;&gt;
+      &lt;li
+        class=&quot;list-group-item&quot;
+        *ngFor=&quot;let even of evenNumbers&quot;
+        [ngClass]=&quot;&lbrace; odd: even % 2 !== 0 &rbrace;&quot;
+        [ngStyle]=&quot;&lbrace;
+          backgroundColor: even % 2 !== 0 ? &apos;yellow&apos; : &apos;lightgray&apos;
+        &rbrace;&quot;
+      &gt;
+        &lbrace; &lbrace; even &rbrace; &rbrace;
+      &lt;/li&gt;
+    &lt;/div&gt;
+  </code>
+  <p class="obs"> The directive name <b>'appUnless'</b> needs to be preceded by *, because it has a <span class="code">*ngIf</span> / structural directive role</p>
+  </pre>
+  <br /><br />
+  <h3>
+    <b>Understanding ngSwitch</b>
+  </h3>
+  <br />
+  <p>
+    The builtin structure directive <span class="code">*ngSwitch</span> is
+    really easy to use. In this case, we're going to use it to control what is
+    displayed based on a value.
+  </p>
+  <pre>
+    <p><b>app.component</b></p>
+    <code class="code no-border">
+      value = 10;
+    </code>
+    <p><b>app.html</b></p>
+    <code class="code no-border">
+      &lt;div [ngSwitch]=&quot;value&quot;&gt;
+        &lt;p *ngSwitchCase=&quot;5&quot;&gt;Value is 5&lt;/p&gt;
+        &lt;p *ngSwitchCase=&quot;10&quot;&gt;Value is 10&lt;/p&gt;
+        &lt;p *ngSwitchCase=&quot;100&quot;&gt;Value is 100&lt;/p&gt;
+        &lt;p *ngSwitchDefault&gt;Value is Default&lt;/p&gt;
+      &lt;/div&gt;
+    </code>
+  </pre>
+  <p>The paragraph is displayed according to the value</p>
+  <img
+    src="../assets/images/directive-ngswitch.png"
+    class="img-responsive m-auto-d-flex" />
+  <hr />
+  <h1 id="8"><b>#8 Course Project - Directives</b></h1>
+  <br /><br />
+  <h3>
+    <b>Building and Using a Dropdown Directive</b>
+  </h3>
+  <br />
+  <p>
+    Back to <i>Recipie App</i> project, we're going config he
+    <i>Manage Recipe</i> dropdown using our own directive
+  </p>
+  <pre>
+    <p><b>dropdown.directive</b></p>
+    <code class="code no-border">
+      import &lbrace; Directive, ElementRef, EventEmitter, HostBinding, HostListener, Output, Renderer2, &rbrace; from &apos;@angular/core&apos;;
+      @Directive(&lbrace;
+        selector: &apos;[appDropdown]&apos;,
+      &rbrace;)
+      export class DropdownDirective &lbrace;
+        constructor(private elRef: ElementRef, private renderer: Renderer2) &lbrace;&rbrace;
+        @HostBinding(&apos;class.show&apos;) isOpen = false;
+        @HostListener(&apos;click&apos;) toggleOpen() &lbrace;
+          this.isOpen = !this.isOpen;
+          const dropdown = this.elRef.nativeElement.querySelector(&apos;.dropdown-menu&apos;);
+          if (!this.isOpen) &lbrace;
+            this.renderer.addClass(dropdown, &apos;show&apos;);
+          &rbrace; else &lbrace;
+            this.renderer.removeClass(dropdown, &apos;show&apos;);
+          &rbrace;
+        &rbrace;
+      &rbrace;
+    </code>
+    <p class="obs">What should this directive do ? Toggle certain CSS class to the element which it sets on once it's clicked</p>
+    <p><b>recipe.detail.html</b></p>
+    <code class="code no-border">
+      &lt;div class=&quot;btn-group dropdown&quot; appDropdown&gt;
+        &lt;button
+          type=&quot;button&quot;
+          class=&quot;btn btn-primary dropdown-toggle&quot;
+          data-bs-toggle=&quot;dropdown&quot;
+          aria-expanded=&quot;false&quot;
+        &gt;
+          Manage Recipe &lt;span class=&quot;caret&quot;&gt;&lt;/span&gt;
+        &lt;/button&gt;
+        &lt;ul class=&quot;dropdown-menu&quot;&gt;
+          &lt;li&gt;
+            &lt;a href=&quot;#&quot; class=&quot;dropdown-item&quot;&gt;Add ingredients to Shopping List&lt;/a&gt;
+          &lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;#&quot; class=&quot;dropdown-item&quot;&gt;Edit Recipe&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;#&quot; class=&quot;dropdown-item&quot;&gt;Delete Recipe&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/div&gt;
+    </code>
+    <p><b>header.html</b></p>
+    <code class="code no-border">
+      &lt;li class=&quot;nav-item dropdown&quot; appDropdown&gt;
+        &lt;a
+          class=&quot;nav-link dropdown-toggle&quot;
+          href=&quot;#&quot;
+          role=&quot;button&quot;
+          data-bs-toggle=&quot;dropdown&quot;
+          aria-expanded=&quot;false&quot;
+        &gt;
+          Manage
+        &lt;/a&gt;
+        &lt;ul class=&quot;dropdown-menu&quot;&gt;
+          &lt;li&gt;&lt;a class=&quot;dropdown-item&quot; href=&quot;#&quot;&gt;Save Data&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a class=&quot;dropdown-item&quot; href=&quot;#&quot;&gt;Fetching Data&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    </code>
+  </pre>
+  <img
+    src="../assets/images/recipie-app-dropdown.png"
+    class="img-responsive m-atuo d-flex" />
 </div>
-<h1 id="8"><b>#8 Course Project - Directives</b></h1>
