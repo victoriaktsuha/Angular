@@ -21,3 +21,16 @@
 img {
   max-width: 100%;
 }
+.box {
+  border: 1px solid lightgray;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+ul.list_nodecor {
+  li {
+    list-style-type: none;
+  }
+}
+a:not([href]):not([class]) {
+  color: #a4d1ff !important;
+}
