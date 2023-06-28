@@ -89,7 +89,7 @@
         <b><a href="#8">8. Course Project - Directives</a></b>
       </li>
       <li>
-        <b><a>9. Using Services & Dependency Injection</a></b>
+        <b><a href="#9">9. Using Services & Dependency Injection</a></b>
       </li>
       <li>
         <b><a>10. Course Project - Services & Dependency Injection</a></b>
@@ -3666,4 +3666,494 @@
   <img
     src="../assets/images/recipie-app-dropdown.png"
     class="img-responsive m-atuo d-flex" />
+  <hr />
+  <h1 id="9"><b>#9 Using Service & Dependency Injection</b></h1>
+  <br /><br />
+  <h3>
+    <b>Service & Dependency Injection</b>
+  </h3>
+  <br />
+  <p>
+    <b>What are Services ?</b><br /><br />
+    Let's consider the follow application:<br /><br />
+    <img
+      src="../assets/images/service-app.png"
+      class="img-responsive m-auto d-flex" />
+    <span class="obs">Structure replicated from lecture</span>
+  </p>
+  <p>
+    In the <i>About Component</i> and <i>User Detail Component</i>, we have a
+    similar behavior: log data to the console, becaming a duplicated code in two
+    different components. In the <i>User Component</i>, we store user data and
+    could possibly use it later. These two scenarios it's a typical use for
+    <b>services</b>, it's basic another class you can add at your app which acts
+    as a central repository, where you can centralize your code.
+  </p>
+  <p>
+    Then we could use a <i>LogService</i> service to centralize the log
+    statement and a <i>UserService</i> to manage data
+  </p>
+  <br /><br />
+  <h3>
+    <b>Why would you Need Services?</b>
+  </h3>
+  <br />
+  <p>
+    In the <i>services-start</i> project, we'll simulate the log and the data
+    storage, general tasks that usually can be centralized. We'll also
+    communicate between these components:
+    <span class="code">app.component</span>,
+    <span class="code">account.component</span> and
+    <span class="code">new-account.component</span><br />
+    <img
+      src="../assets/images/service-template.png"
+      class="img-responsive m-auto d-flex" /><br /><br />
+    The <span class="code">app.component</span> is the template where the other
+    two components get together, and we use property and event binding to pass
+    data.<br /><br />
+    The accounts loop, for example, we stored inside the
+    <span class="code">app.component</span> and pass via property binding to the
+    <span class="code">&lt;app-account&gt;&lt;/app-account&gt;</span>
+    selector.<br /><br />
+    In the <span class="code">account.html</span> we have an
+    <span class="code">(click)</span> event which its emitter will be catched by
+    the <span class="code">app.component</span>, where we handled it again
+  </p>
+  <br /><br />
+  <h3>
+    <b>Creating a Logging Service</b>
+  </h3>
+  <br />
+  <p>
+    <b>How we create a service in Angular ?</b><br />
+    In this case, we're going to create just a file called
+    <span class="code">logging.service.ts</span>. You can place it in the
+    <span class="code">app</span> or
+    <span class="code">shared</span> folder.<br />
+    Then we create the following structure inside of it:
+  </p>
+  <pre>
+    <code class="code no-border">
+      export class LoggingService &lbrace;
+        logStatusChage(status: string) &lbrace;
+          console.log(&apos;A server status changes, new status: &apos; + status);
+        &rbrace;
+      &rbrace;
+    </code>
+  </pre>
+  <p>
+    Note that we <b>don't</b> need to import any decorator for services, as we
+    do with <i>directives</i> and <i>components</i>.<br />
+    Now, normally we would import it to the components that use the
+    <span class="code">console.log</span> like this (instatiating on our own):
+  </p>
+  <pre>
+    <code class="code no-border">
+      import &lbrace; LoggingService &rbrace; from '../logging.service';
+
+      const service = new LoggingService();
+      service.logStatusChange(accountStatus);
+    </code>
+  </pre>
+  <p>
+    This would work, but Angular offers us a much better way to get access to
+    services through <b>Heierarchical Injector</b>.
+  </p>
+  <br /><br />
+  <h3>
+    <b>Injecting the Logging Service into Components</b>
+  </h3>
+  <br />
+  <p>
+    A great Angular tool to get access to the services is the
+    <b>dependency injector</b>. Dependency is something which a class will
+    depend of. For example, the
+    <span class="code">new-account.component</span> depends on this loggin
+    service, because we want ot call a method in this service. When the
+    dependency is injected, it automatically injects an instance of this class
+    into the component. We just need to inform Angular that we required such
+    instance.
+  </p>
+  <p>
+    So in the <span class="code">new-account.component</span> case, we add this
+    service like this:
+  </p>
+  <pre>
+    <code class="code no-border">
+      import &lbrace; LoggingService &rbrace; from '../logging.service';
+
+      constructor(private loggingService: LoggingService) &lbrace;&rbrace;
+    </code>
+    <span class="obs">
+      This simple syntax informs Angular that we'll need a instance of this 'Logging Service'. Since Angular is responsible for instantiating the components, it we'll need to construct them correctly; So, if we define our constructor like this, Angular we'll try to give us this argument.
+    </span>
+  </pre>
+  <p>
+    Now that ANgular knows what we want, we need to show it how to give us such
+    instance, <b>providing</b> the service, telling Angular how to create it.
+  </p>
+  <pre>
+    <code class="code no-border">
+      @Component(&lbrace;
+        selector: &apos;app-new-account&apos;,
+        templateUrl: &apos;./new-account.component.html&apos;,
+        styleUrls: [&apos;./new-account.component.css&apos;],
+        providers: [LoggingService],
+      &rbrace;)
+    </code>
+  </pre>
+  <p>
+    We do this through the
+    <span class="code">providers: [LoggingService]</span>, adding the name of
+    the service we wnat to instantiate. Now we can access the service method
+    inside the component:
+  </p>
+  <pre>
+    <code class="code no-border">
+      onCreateAccount(accountName: string, accountStatus: string) &lbrace;
+        this.accountAdded.emit(&lbrace;
+          name: accountName,
+          status: accountStatus,
+        &rbrace;);
+        this.loggingService.logStatusChange(accountStatus);
+      &rbrace;
+    </code>
+  </pre>
+  <p>
+    The benefit from <b>not</b> creating this manually is that we remain in the
+    Angular ecossystem, it knows how the app works perfectly.
+  </p>
+  <p>
+    The app will work the same as before, giving us a log when a new account is
+    created, but now injecting the service.
+  </p>
+  <img
+    src="../assets/images/service-app-service.png"
+    class="img-responsive m-auto d-flex" />
+  <br /><br />
+  <p>
+    We can to exactly the same in the
+    <span class="code">account.component</span>, that will have the same
+    behavior as before, but now also injecting the
+    <span class="code">Logging</span> service
+  </p>
+  <br />
+  <img
+    src="../assets/images/service-app-service-account.png"
+    class="img-responsive m-auto d-flex" />
+  <br /><br />
+  <h3>
+    <b>Alternative Injection Syntax (text lecture)</b>
+  </h3>
+  <br />
+  <p>
+    Injecting services (or, in general: dependencies) into components via the
+    <b>constructor functions</b> is the most common way of perform such
+    injections. You'll see this approach in most Angular projects you'll be
+    working on.
+  </p>
+  <p>
+    However, there also is an alternative way of injecting dependencies: Via
+    Angular's <span class="code">inject()</span> function.
+  </p>
+  <p>
+    Instead of injecting <span class="code">LoggingService</span> like this:
+  </p>
+  <pre>
+    <code class="code no-border">
+      @Component(...)
+      export class AccountComponent &lbrace;
+      
+        constructor(private loggingService: LoggingService) &lbrace;&rbrace;
+      &rbrace;
+    </code>
+  </pre>
+  <p>
+    you could inject it like this, by using the
+    <span class="code">inject()</span> function:
+  </p>
+  <pre>
+    <code class="code no-border">
+      import &lbrace; Component, Input, Output, inject &rbrace; from '@angular/core'; 
+ 
+      @Component(...)
+      export class AccountComponent &lbrace;
+        private loggingService?: LoggingService;
+      
+        constructor() &lbrace;
+          this.loggingService = inject(LoggingService);
+        &rbrace;
+      &rbrace;
+    </code>
+  </pre>
+  <h3>
+    <b>Creating a Data Service</b>
+  </h3>
+  <br />
+  <p>Another case to use services is stored and manage data.</p>
+  <p>
+    In the case of the accounts, we're storing them in the<span class="code"
+      >app.component</span
+    >, with a chain of property and event binding to get the data to the app to
+    update the accounts.
+  </p>
+  <p>
+    Let's create a service for that called
+    <span class="code">accounts.service.ts</span> with the following structure:
+  </p>
+  <pre>
+    <code class="code no-border">
+      export class AccountsService &lbrace;
+        accounts = [
+          &lbrace;
+            name: &apos;Master Account&apos;,
+            status: &apos;active&apos;,
+          &rbrace;,
+          &lbrace;
+            name: &apos;Testaccount&apos;,
+            status: &apos;inactive&apos;,
+          &rbrace;,
+          &lbrace;
+            name: &apos;Hidden Account&apos;,
+            status: &apos;unknown&apos;,
+            &rbrace;,
+        ];
+      
+        addAccount(name: string, status: string) &lbrace;
+          this.accounts.push(&lbrace; name: name, status: status &rbrace;);
+        &rbrace;
+        updateStatus(id: number, status: string) &lbrace;
+          this.accounts[id].status = status;
+        &rbrace;
+      &rbrace;
+    </code>
+  </pre>
+  <p>
+    We moved the <b>accounts</b> array from
+    <span class="code">app.component</span> and replaced the early methods with
+    new ones, but with the same purpose
+  </p>
+  <p>Now we need to modify the <span class="code">app.component</span>:</p>
+  <pre>
+    <code class="code no-border">
+      import &lbrace; Component, OnInit &rbrace; from &apos;@angular/core&apos;;
+      import &lbrace; AccountsService &rbrace; from &apos;./accounts.service&apos;;
+
+      @Component(&lbrace;
+        selector: &apos;app-root&apos;,
+        templateUrl: &apos;./app.component.html&apos;,
+        styleUrls: [&apos;./app.component.css&apos;],
+        providers: [AccountsService],
+      &rbrace;)
+      export class AppComponent implements OnInit &lbrace;
+        accounts: &lbrace; name: string; status: string &rbrace;[] = [];
+        // property: &lbrace;obj.property: type, obj.property: type&rbrace;[property type (array)] = [array value (empty)];
+
+        constructor(private accountsService: AccountsService) &lbrace;&rbrace;
+
+        ngOnInit() &lbrace;
+          this.accounts = this.accountsService.accounts;
+        &rbrace;
+      &rbrace;
+    </code>
+  </pre>
+  <p>
+    In the <span class="code">new-account.component</span>, we removed the
+    <span class="code">@Output</span> and
+    <span class="code">EventEmitter</span>, since the componnets are 'connected'
+    by the service
+  </p>
+  <pre>
+    <code class="code no-border">
+      import &lbrace; Component &rbrace; from &apos;@angular/core&apos;;
+      import &lbrace; LoggingService &rbrace; from &apos;../logging.service&apos;;
+      import &lbrace; AccountsService &rbrace; from &apos;../accounts.service&apos;;
+
+      @Component(&lbrace;
+        selector: &apos;app-new-account&apos;,
+        templateUrl: &apos;./new-account.component.html&apos;,
+        styleUrls: [&apos;./new-account.component.css&apos;],
+        providers: [LoggingService, AccountsService],
+        &rbrace;)
+      export class NewAccountComponent &lbrace;
+        constructor(
+          private loggingService: LoggingService,
+          private accountsService: AccountsService
+        ) &lbrace;&rbrace;
+
+        onCreateAccount(accountName: string, accountStatus: string) &lbrace;
+          this.accountsService.addAccount(accountName, accountStatus);
+          this.loggingService.logStatusChange(accountStatus);
+        &rbrace;
+      &rbrace;
+    </code>
+  </pre>
+  <p>
+    And in the <span class="code">account.component</span> we did something
+    similar, but we kept the <span class="code">@Input</span> because we still
+    receive data from outside:
+  </p>
+  <pre>
+    <code class="code no-border">
+      import &lbrace; Component, Input &rbrace; from '@angular/core';
+      import &lbrace; LoggingService &rbrace; from '../logging.service';
+      import &lbrace; AccountsService &rbrace; from '../accounts.service';
+
+      @Component(&lbrace;
+        selector: 'app-account',
+        templateUrl: './account.component.html',
+        styleUrls: ['./account.component.css'],
+        providers: [LoggingService],
+        &rbrace;)
+      export class AccountComponent &lbrace;
+        @Input() account: &lbrace; name: string; status: string &rbrace;;
+        @Input() id: number;
+
+        constructor(
+          private loggingService: LoggingService,
+          private accountsService: AccountsService
+        ) &lbrace;&rbrace;
+
+        onSetTo(status: string) &lbrace;
+          this.accountsService.updateStatus(this.id, status);
+          this.loggingService.logStatusChange(status);
+        &rbrace;
+      &rbrace;
+    </code>
+  </pre>
+  <p>
+    At this point, the app behavior is very similar as before, but still we
+    don't see any account being added after click the button
+    <i>'Add Account'</i>.<br />
+    We also see the log at the console, but we don't the change in the account
+    container when switch between the account types
+    <i>(active, inactive, hidden)</i>
+  </p>
+  <br /><br />
+  <h3>
+    <b>Understanding the Hierarchical Injector</b>
+  </h3>
+  <br />
+  <p>
+    The previous problem is not due to our code, it's correct. We're just not
+    using the service in the way we should in our app. So, what's wrong ?
+  </p>
+  <p>
+    The Angular dependency injector is, actually, a
+    <b>hierarchical injector</b>. That means if we provide a service in some
+    place of our app, a component, for example, the Angular framework knows how
+    to create an instance of this service for this component, and,
+    <b>important</b>: all of your its child components. All components, and its
+    child components, and its child of child components will receive the same
+    instance of this service. <br /><br />
+    Other places we can provide services is the
+    <span class="code">AppModule</span>, the highest level possible to provide a
+    service for a parent component - same Instance of Service is available
+    <b>Application-wide</b>;<br /><br />
+    The next level would be the <span class="code">AppComponent</span> - same
+    Instance of Service is available for <b>all Components</b> (but
+    <b>not for Other Services</b>)<br /><b>Important:</b> The Instances don't
+    propagate up, it only go down for that components tree;<br /><br />
+    The lowest level would be <b><i>any other component</i></b> - Same Instance
+    of Service is available for
+    <b>the Component and all, and only for, its child components</b>. In this
+    case, it will overwrite the service of the higher level available for this
+    component, if they are the same service.<br /><br />
+    This last scenario it's what is happening to the
+    <span class="code">service-app</span>
+  </p>
+  <br /><br />
+  <h3>
+    <b>How many Instances of Service Should It Be?</b>
+  </h3>
+  <br />
+  <p>
+    We can have as many instance as we need, but we can't repeat the service of
+    this instance. <br />
+    <b>First</b>, we added the <span class="code">account.service</span> in the
+    <span class="code">app.component</span>. Then all its child components also
+    has access to this service.<br />But then we also added
+    <span class="code">account.service</span> in the
+    <span class="code">new-account.component</span> and
+    <span class="code">account.component</span>. Hence, we overwrite the
+    instance we would get from the <span class="code">app.component</span>,
+    giving to the child components their own instance. Then when we add a new
+    service calling <span class="code">addAccount</span> in the
+    <span class="code">new-account-component</span>, it works, but its a totally
+    different instance of the service form the one that we have in the
+    <span class="code">app.component</span>.<br /><br /><b>So how to fix it ?</b
+    ><br />Just remove or don't add the service from the <b>providers</b> array.
+    Just use its instance already given by the
+    <span class="code">app.component</span>, in this case.
+  </p>
+  <pre>
+    <code class="code no-border">
+      import &lbrace; Component &rbrace; from &apos;@angular/core&apos;;
+      import &lbrace; LoggingService &rbrace; from &apos;../logging.service&apos;;
+      import &lbrace; AccountsService &rbrace; from &apos;../accounts.service&apos;;
+
+      @Component(&lbrace;
+        selector: &apos;app-new-account&apos;,
+        templateUrl: &apos;./new-account.component.html&apos;,
+        styleUrls: [&apos;./new-account.component.css&apos;],
+        providers: [LoggingService, <del>AccountsService</del>],
+        &rbrace;)
+      export class NewAccountComponent &lbrace;
+        constructor(
+          private loggingService: LoggingService,
+          private accountsService: AccountsService
+        ) &lbrace;&rbrace;
+
+        onCreateAccount(accountName: string, accountStatus: string) &lbrace;
+          this.accountsService.addAccount(accountName, accountStatus);
+          this.loggingService.logStatusChange(accountStatus);
+        &rbrace;
+      &rbrace;
+    </code>
+  </pre>
+  <p>
+    <b>Important:</b> Don't remove it neither from the constructor nor from the
+    import, just from the <i>providers</i> array
+  </p>
+  <br /><br />
+  <h3>
+    <b>Injecting Services into Services</b>
+  </h3>
+  <br />
+  <p>
+    First, let's transfer the <span class="code">AccountsService</span> service
+    from the <span class="code">app.component</span> to the
+    <span class="code">app.module</span>, as said before, the highest level.
+  </p>
+  <pre>
+    <code class="code no-border">
+      import &lbrace; BrowserModule &rbrace; from '@angular/platform-browser';
+      import &lbrace; NgModule &rbrace; from '@angular/core';
+      import &lbrace; FormsModule &rbrace; from '@angular/forms';
+
+      import &lbrace; AppComponent &rbrace; from './app.component';
+      import &lbrace; AccountComponent &rbrace; from './account/account.component';
+      import &lbrace; NewAccountComponent &rbrace; from './new-account/new-account.component';
+      import &lbrace; AccountsService &rbrace; from './accounts.service';
+
+      @NgModule(&lbrace;
+        declarations: [AppComponent, AccountComponent, NewAccountComponent],
+        imports: [BrowserModule, FormsModule],
+        providers: [AccountsService, LoggingService],
+        bootstrap: [AppComponent],
+        &rbrace;)
+      export class AppModule &lbrace;&rbrace;
+    </code>
+  </pre>
+  <p>
+    After this change, we're making sure that our whole application, and
+    everything in our application, receives the same instance of this service,
+    unless we overwrite it as we did before.<br />
+    With that, we can even inject a service into another service, beause thats
+    not possible by providing it in a component level.
+  </p>
+  <p>
+    Let's say we want to log something if we call an action in the
+    <span class="code">AccountsService</span>
+  </p>
 </div>
